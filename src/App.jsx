@@ -489,7 +489,6 @@ export default function WC2026Simulator() {
     return s;
   };
   const [scores, setScores] = useState(initScores);
-  const [isBracketCollapsed, setIsBracketCollapsed] = useState(false);
 
   const setScore = (group,mIdx,hg,ag) => {
     setScores(prev => ({
@@ -567,7 +566,7 @@ export default function WC2026Simulator() {
       </div>
 
       <div className="content-shell">
-        <div className={`page-layout ${isBracketCollapsed ? "page-layout--bracket-collapsed" : ""}`}>
+        <div className="page-layout">
           <main className="groups-column">
             <div className="groups-grid">
               {GROUP_KEYS.map(groupKey => (
@@ -586,17 +585,8 @@ export default function WC2026Simulator() {
             {/* Third place race */}
             <ThirdPlacePanel thirds={thirdPlaceRace}/>
           </main>
-          <aside className={`bracket-aside ${isBracketCollapsed ? "bracket-aside--collapsed" : ""}`}>
-            <button
-              aria-expanded={!isBracketCollapsed}
-              aria-label={isBracketCollapsed ? "Expand R32 bracket" : "Collapse R32 bracket"}
-              className="bracket-toggle"
-              onClick={()=>setIsBracketCollapsed(prev => !prev)}
-              type="button"
-            >
-              {isBracketCollapsed ? "<" : ">"}
-            </button>
-            {!isBracketCollapsed&&<R32Bracket matches={bracketMatches}/>}
+          <aside className="bracket-aside">
+            <R32Bracket matches={bracketMatches}/>
           </aside>
         </div>
       </div>

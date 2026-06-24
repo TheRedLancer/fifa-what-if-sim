@@ -34,11 +34,6 @@ select {
   display: grid;
   gap: 16px;
   grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
-  transition: grid-template-columns 0.2s ease;
-}
-
-.page-layout--bracket-collapsed {
-  grid-template-columns: minmax(0, 1fr) 42px;
 }
 
 .groups-grid {
@@ -105,48 +100,6 @@ select {
 
 .bracket-aside {
   min-width: 0;
-  position: relative;
-}
-
-.bracket-aside--collapsed {
-  align-items: flex-start;
-  background: #0a1426;
-  border: 1px solid #1e3a5f;
-  border-radius: 12px;
-  display: flex;
-  justify-content: center;
-  min-height: 58px;
-  padding: 14px 0;
-}
-
-.bracket-toggle {
-  align-items: center;
-  background: #0d1828;
-  border: 1px solid #4a9eff;
-  border-radius: 999px;
-  color: #4a9eff;
-  cursor: pointer;
-  display: flex;
-  font-size: 18px;
-  font-weight: 900;
-  height: 28px;
-  justify-content: center;
-  left: -14px;
-  line-height: 1;
-  padding: 0;
-  position: absolute;
-  top: 14px;
-  width: 28px;
-  z-index: 2;
-}
-
-.bracket-toggle:hover {
-  background: #1a3060;
-  color: #fff;
-}
-
-.bracket-aside--collapsed .bracket-toggle {
-  position: static;
 }
 
 .bracket-panel {
@@ -249,10 +202,6 @@ select {
 
 @media (max-width: 900px) {
   .page-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .page-layout--bracket-collapsed {
     grid-template-columns: 1fr;
   }
 
