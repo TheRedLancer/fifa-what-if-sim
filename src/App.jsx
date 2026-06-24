@@ -391,7 +391,6 @@ export default function WC2026Simulator() {
     return s;
   };
   const [scores, setScores] = useState(initScores);
-  const [activeGroup, setActiveGroup] = useState("A");
 
   const setScore = (group,mIdx,hg,ag) => {
     setScores(prev => ({
@@ -456,36 +455,17 @@ export default function WC2026Simulator() {
         </p>
       </div>
 
-      {/* Group tabs */}
-      <div style={{borderBottom:"1px solid #1e3a5f",background:"#0d1828",
-        padding:"0 16px",display:"flex",gap:4,flexWrap:"wrap"}}>
-        {GROUP_KEYS.map(g => {
-          const {unset}=groupResults[g];
-          const allSet=unset.length===0;
-          const isActive=g===activeGroup;
-          return (
-            <button key={g} onClick={()=>setActiveGroup(g)} style={{
-              padding:"10px 14px",fontSize:12,fontWeight:700,
-              background:isActive?"#1a3060":"transparent",
-              color:isActive?"#fff":allSet?"#22c55e":"#5a7090",
-              border:"none",borderBottom:isActive?"2px solid #4a9eff":"2px solid transparent",
-              cursor:"pointer",transition:"all 0.15s",
-            }}>
-              {g} {allSet?"✓":""}
-            </button>
-          );
-        })}
-      </div>
-
       <div style={{padding:"20px 16px 0",maxWidth:900,margin:"0 auto"}}>
-        {/* Active group panel */}
-        <GroupPanel
-          groupKey={activeGroup}
-          group={GROUPS[activeGroup]}
-          result={groupResults[activeGroup]}
-          scores={scores[activeGroup]}
-          setScore={(mIdx,hg,ag)=>setScore(activeGroup,mIdx,hg,ag)}
-        />
+        {GROUP_KEYS.map(groupKey => (
+          <GroupPanel
+            key={groupKey}
+            groupKey={groupKey}
+            group={GROUPS[groupKey]}
+            result={groupResults[groupKey]}
+            scores={scores[groupKey]}
+            setScore={(mIdx,hg,ag)=>setScore(groupKey,mIdx,hg,ag)}
+          />
+        ))}
 
         {/* Third place race */}
         <ThirdPlacePanel thirds={thirdPlaceRace}/>
