@@ -43,6 +43,32 @@ select {
   margin-bottom: 20px;
 }
 
+.clear-all-button {
+  background: #0d1828;
+  border: 1px solid #1e3a5f;
+  border-radius: 6px;
+  color: #7a90b0;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin-top: 12px;
+  padding: 7px 10px;
+  text-transform: uppercase;
+}
+
+.clear-all-button:hover:not(:disabled) {
+  background: #1a3060;
+  border-color: #4a9eff;
+  color: #fff;
+}
+
+.clear-all-button:disabled {
+  color: #3a5070;
+  cursor: default;
+  opacity: 0.65;
+}
+
 .team-label {
   display: inline-flex;
   flex-direction: column;
@@ -73,10 +99,11 @@ select {
 
 .team-label__name {
   color: #6f86a8;
+  display: block;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.02em;
-  max-width: 86px;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -125,7 +152,8 @@ select {
 }
 
 .match-team {
-  flex: 0 0 64px;
+  flex: 1 1 58px;
+  max-width: 72px;
   min-width: 0;
 }
 
@@ -207,6 +235,25 @@ select {
   grid-template-columns: 38px minmax(0, 1fr);
   min-height: 54px;
   padding: 9px 10px;
+}
+
+.bracket-side--locked {
+  background: #1a1500;
+  border-bottom-color: #3a2a08;
+}
+
+.bracket-side--locked .bracket-side__seed {
+  color: #f59e0b;
+}
+
+.bracket-side--locked .team-label__name {
+  color: #f8e2b3;
+}
+
+.bracket-side--locked .team-label__abbr {
+  background: #2a1f00;
+  border-color: #7a6030;
+  color: #f59e0b;
 }
 
 .bracket-side:last-child {

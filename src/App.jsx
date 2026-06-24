@@ -1,4 +1,4 @@
-import { Fragment, useState, useMemo } from "react";
+import { Fragment, useDeferredValue, useMemo, useState } from "react";
 import tournamentData from "./data/wc2026-data.json";
 
 // Fallback data from the original paste; wc2026-data.json is the source used by the app.
@@ -258,11 +258,32 @@ const MATCHDAY_LABEL = new Intl.DateTimeFormat("en-US", {
   month: "short",
   day: "numeric",
 });
+const BROWSER_TIME_ZONE = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
 
 function formatMatchdayLabel(date) {
   const [year, month, day] = date.split("-").map(Number);
   return MATCHDAY_LABEL.format(new Date(year, month - 1, day));
 }
+
+function formatKickoff(kickoffUTC,timeZone) {
+  return new Intl.DateTimeFormat(undefined, {
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone,
+    timeZoneName: "short",
+  }).format(new Date(kickoffUTC));
+}
+
+function formatVenue(match) {
+  return [match.stadium, [match.city, match.country].filter(Boolean).join(", ")]
+    .filter(Boolean)
+    .join(" · ");
+}
+
+function isFinalMatch(match) {
+  return match.status==="final"&&match.finalScore;
+}
+
 
 Object.entries(tournamentData.groups).forEach(([key, group]) => {
   PAST_RESULTS[key] = group.pastResults;
@@ -312,6 +333,9 @@ const R32_MATCHES = [
 const THIRD_SLOTS = R32_MATCHES.flatMap(match =>
   match.sides.filter(side => side.type==="third").map(side => ({...side,matchNumber:match.number})),
 );
+const LOCK_SIM_MAX_SCORE = 12;
+const LOCK_SIM_SCORES = Array.from({length:LOCK_SIM_MAX_SCORE+1},(_,i)=>i);
+const seedLockCache = new Map();
 
 function TeamLabel({abbr,name,align="left",variant="match"}) {
   const team = name ? {abbr,name} : teamByAbbr(abbr);
@@ -372,6 +396,62 @@ function applyResult(team,hg,ag,isHome) {
     gf:team.gf+gf,ga:team.ga+ga,pts:team.pts+(w?3:d?1:0)};
 }
 
+function applyMatchToTeams(teams,match,hg,ag) {
+  const nextTeams = teams.map(team => ({...team}));
+  const hi=nextTeams.findIndex(t=>t.abbr===match.home);
+  const ai=nextTeams.findIndex(t=>t.abbr===match.away);
+  nextTeams[hi]=applyResult(nextTeams[hi],hg,ag,true);
+  nextTeams[ai]=applyResult(nextTeams[ai],hg,ag,false);
+  return nextTeams;
+}
+
+function computeGroupSeedLocks(groupKey,matchScores) {
+  const cacheKey = `${groupKey}:${matchScores.map(({hg,ag}) => `${hg ?? "x"}-${ag ?? "x"}`).join("|")}`;
+  if (seedLockCache.has(cacheKey)) return seedLockCache.get(cacheKey);
+
+  const group = GROUPS[groupKey];
+  let teams = group.teams.map(team => ({...team}));
+  const allResults = [...(PAST_RESULTS[groupKey]||[])];
+  const remaining = [];
+
+  group.matches.forEach((match,mIdx) => {
+    const {hg,ag} = matchScores[mIdx];
+    if (hg===null||ag===null) {
+      remaining.push(match);
+      return;
+    }
+    allResults.push({home:match.home,away:match.away,hg,ag});
+    teams = applyMatchToTeams(teams,match,hg,ag);
+  });
+
+  const possibleBySeed = [new Set(),new Set()];
+
+  function simulate(matchIndex,simTeams,simResults) {
+    if (matchIndex===remaining.length) {
+      const sorted = sortGroup(simTeams,simResults);
+      possibleBySeed[0].add(sorted[0].abbr);
+      possibleBySeed[1].add(sorted[1].abbr);
+      return;
+    }
+    const match = remaining[matchIndex];
+    LOCK_SIM_SCORES.forEach(hg => {
+      LOCK_SIM_SCORES.forEach(ag => {
+        simulate(
+          matchIndex+1,
+          applyMatchToTeams(simTeams,match,hg,ag),
+          [...simResults,{home:match.home,away:match.away,hg,ag}],
+        );
+      });
+    });
+  }
+
+  simulate(0,teams,allResults);
+
+  const locks = possibleBySeed.map(possible => possible.size===1 ? [...possible][0] : null);
+  seedLockCache.set(cacheKey,locks);
+  return locks;
+}
+
 function assignThirdPlaceSlots(thirdPlaceRace) {
   const qualifiedThirds = thirdPlaceRace.slice(0,8);
   const rankByGroup = Object.fromEntries(qualifiedThirds.map((team,index) => [team.group,index]));
@@ -404,73 +484,102 @@ function assignThirdPlaceSlots(thirdPlaceRace) {
   return assignments;
 }
 
-function resolveBracketSide(side,groupResults,thirdAssignments) {
+function resolveBracketSide(side,groupResults,thirdAssignments,allGroupsComplete,groupSeedLocks) {
   if (side.type==="position") {
     const team = groupResults[side.group].sorted[side.place-1];
     return {
       team,
-      label:`${side.place}${side.group}`,
+      label:`${side.group}${side.place}`,
       detail: side.place===1 ? `Winner Group ${side.group}` : `Runner-up Group ${side.group}`,
+      locked:groupSeedLocks[side.group][side.place-1]===team.abbr,
     };
   }
   const thirdTeam = thirdAssignments[side.id];
   if (!thirdTeam) {
     return {
       team:null,
-      label:`3${side.groups.join("/")}`,
+      label:`${side.groups.join("/")}3`,
       detail:`Best 3rd from ${side.groups.join(", ")}`,
+      locked:false,
     };
   }
   return {
     team:{abbr:thirdTeam.abbr,name:thirdTeam.team},
-    label:`3${thirdTeam.group}`,
+    label:`${thirdTeam.group}3`,
     detail:`Best 3rd Group ${thirdTeam.group}`,
+    locked:allGroupsComplete,
   };
 }
 
 // ─── SCORE STEPPER ───────────────────────────────────────────────────────────
 function ScoreStepper({value,onChange,color}) {
-  const btn = (lbl,fn) => (
-    <button onClick={fn} style={{
+  const displayValue = value ?? "–";
+  const btn = (lbl,fn,disabled=false) => (
+    <button disabled={disabled} onClick={fn} style={{
       width:32,height:32,borderRadius:6,border:`1px solid ${color}44`,
-      background:color+"18",color,cursor:"pointer",fontSize:19,fontWeight:700,
+      background:disabled?"#0b1324":color+"18",color:disabled?"#3a5070":color,
+      cursor:disabled?"default":"pointer",fontSize:19,fontWeight:700,
       lineHeight:1,display:"flex",alignItems:"center",justifyContent:"center",
     }}>{lbl}</button>
   );
   return (
     <div style={{display:"flex",alignItems:"center",gap:7}}>
-      {btn("−",()=>onChange(Math.max(0,value-1)))}
-      <span style={{fontSize:26,fontWeight:800,color:"#fff",minWidth:30,textAlign:"center"}}>{value}</span>
-      {btn("+",()=>onChange(value+1))}
+      {btn("−",()=>onChange(Math.max(0,value-1)),value===null||value===0)}
+      <span style={{fontSize:26,fontWeight:800,color:"#fff",minWidth:30,textAlign:"center"}}>{displayValue}</span>
+      {btn("+",()=>onChange(value===null?1:value+1))}
+    </div>
+  );
+}
+
+function LockedScore({value}) {
+  return (
+    <div style={{display:"flex",alignItems:"center",justifyContent:"center",width:101}}>
+      <span style={{fontSize:26,fontWeight:900,color:"#f8e2b3",minWidth:30,textAlign:"center"}}>{value}</span>
     </div>
   );
 }
 
 function MatchRow({match,score,onScore}) {
   const {hg,ag}=score;
-  const label=hg>ag?`${match.home} WIN`:ag>hg?`${match.away} WIN`:"DRAW";
-  const color=hg>ag?"#4a9eff":ag>hg?"#a78bfa":"#f59e0b";
+  const isFinal = isFinalMatch(match);
+  const isSet = hg!==null&&ag!==null;
+  const resultLabel=!isSet?"NOT SET":hg>ag?`${match.home} WIN`:ag>hg?`${match.away} WIN`:"DRAW";
+  const label=isFinal?`FINAL · ${resultLabel}`:resultLabel;
+  const color=!isSet?"#5a7090":hg>ag?"#4a9eff":ag>hg?"#a78bfa":"#f59e0b";
   return (
     <div style={{background:"#091628",borderRadius:8,padding:"10px 12px",
       marginBottom:8,border:"1px solid #162d4f"}}>
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",
         gap:8,fontSize:10,color:"#4a6090",marginBottom:8}}>
-        <span>{match.home} {match.prob.home}% · D {match.prob.draw}% · {match.away} {match.prob.away}%</span>
-        <span style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
+        <span style={{color:"#5a7090",maxWidth:"100%",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
+          {formatVenue(match)}
+        </span>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr auto 1fr",alignItems:"center",
+        gap:8,fontSize:10,color:"#4a6090",marginBottom:6}}>
+        <span></span>
+        <span style={{fontSize:11,fontWeight:800,color:"#7a90b0"}}>
+          {formatKickoff(match.kickoffUTC,BROWSER_TIME_ZONE)}
+        </span>
+        <span style={{display:"flex",alignItems:"center",justifyContent:"flex-end",gap:6,flexShrink:0}}>
           <span style={{fontWeight:700,color,letterSpacing:"0.1em"}}>{label}</span>
-          <button aria-label={`Reset ${match.home} ${match.away} score to 0-0`} onClick={()=>onScore(0,0)} style={{
-            minWidth:58,height:16,borderRadius:4,border:"1px solid #3a5070",
-            color:"#7a90b0",background:"transparent",cursor:"pointer",
-            fontSize:10,lineHeight:1,padding:"0 5px"}}>Reset 0-0</button>
+          {!isFinal&&<button aria-label={`Clear ${match.home} ${match.away} score`} disabled={!isSet} onClick={()=>onScore(null,null)} style={{
+            minWidth:38,height:16,borderRadius:4,border:"1px solid #3a5070",
+            color:isSet?"#7a90b0":"#3a5070",background:"transparent",cursor:isSet?"pointer":"default",
+            fontSize:10,lineHeight:1,padding:"0 5px"}}>Clear</button>}
         </span>
       </div>
       <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:10}}>
         <div className="match-team match-team--home">
           <TeamLabel abbr={match.home} align="right"/>
         </div>
-        <ScoreStepper value={hg} onChange={v=>onScore(v,ag)} color="#4a9eff"/>
+        {isFinal
+          ? <LockedScore value={hg}/>
+          : <ScoreStepper value={hg} onChange={v=>onScore(v,ag??0)} color="#4a9eff"/>}
         <span style={{fontSize:16,fontWeight:300,color:"#3a5070"}}>–</span>
-        <ScoreStepper value={ag} onChange={v=>onScore(hg,v)} color="#a78bfa"/>
+        {isFinal
+          ? <LockedScore value={ag}/>
+          : <ScoreStepper value={ag} onChange={v=>onScore(hg??0,v)} color="#a78bfa"/>}
         <div className="match-team match-team--away">
           <TeamLabel abbr={match.away}/>
         </div>
@@ -484,17 +593,30 @@ export default function WC2026Simulator() {
   const initScores = () => {
     const s = {};
     GROUP_KEYS.forEach(g => {
-      s[g] = GROUPS[g].matches.map(()=>({hg:0,ag:0}));
+      s[g] = GROUPS[g].matches.map(match => isFinalMatch(match)
+        ? {hg:match.finalScore.home,ag:match.finalScore.away}
+        : {hg:null,ag:null});
     });
     return s;
   };
   const [scores, setScores] = useState(initScores);
+  const deferredScores = useDeferredValue(scores);
 
   const setScore = (group,mIdx,hg,ag) => {
+    if (isFinalMatch(GROUPS[group].matches[mIdx])) return;
     setScores(prev => ({
       ...prev,
       [group]: prev[group].map((s,i)=>i===mIdx?{hg,ag}:s),
     }));
+  };
+
+  const clearAllScores = () => {
+    setScores(prev => Object.fromEntries(GROUP_KEYS.map(groupKey => [
+      groupKey,
+      prev[groupKey].map((score,mIdx) => isFinalMatch(GROUPS[groupKey].matches[mIdx])
+        ? score
+        : {hg:null,ag:null}),
+    ])));
   };
 
   const groupResults = useMemo(() => {
@@ -502,9 +624,10 @@ export default function WC2026Simulator() {
     GROUP_KEYS.forEach(g => {
       const group = GROUPS[g];
       let teams = group.teams.map(t=>({...t}));
-      const md3=[];
+      const unset=[], md3=[];
       group.matches.forEach((match,mIdx) => {
         const {hg,ag} = scores[g][mIdx];
+        if (hg===null||ag===null){unset.push(mIdx);return;}
         md3.push({home:match.home,away:match.away,hg,ag});
         const hi=teams.findIndex(t=>t.abbr===match.home);
         const ai=teams.findIndex(t=>t.abbr===match.away);
@@ -512,7 +635,7 @@ export default function WC2026Simulator() {
         teams[ai]=applyResult(teams[ai],hg,ag,false);
       });
       const allResults=[...(PAST_RESULTS[g]||[]),...md3];
-      res[g]={sorted:sortGroup(teams,allResults)};
+      res[g]={sorted:sortGroup(teams,allResults),unset};
     });
     return res;
   }, [scores]);
@@ -536,17 +659,25 @@ export default function WC2026Simulator() {
     [thirdPlaceRace],
   );
 
+  const groupSeedLocks = useMemo(
+    () => Object.fromEntries(GROUP_KEYS.map(groupKey => [groupKey,computeGroupSeedLocks(groupKey,deferredScores[groupKey])])),
+    [deferredScores],
+  );
+
   const bracketMatches = useMemo(() => {
     const thirdAssignments = assignThirdPlaceSlots(thirdPlaceRace);
+    const allGroupsComplete = Object.values(groupResults).every(({unset}) => unset.length===0);
     return R32_MATCHES.map(match => ({
       number:match.number,
-      sides:match.sides.map(side => resolveBracketSide(side,groupResults,thirdAssignments)),
+      sides:match.sides.map(side => resolveBracketSide(side,groupResults,thirdAssignments,allGroupsComplete,groupSeedLocks)),
     }));
-  }, [groupResults,thirdPlaceRace]);
+  }, [groupResults,thirdPlaceRace,groupSeedLocks]);
 
   const totalSet = GROUP_KEYS.reduce((n,g)=>
     n+scores[g].filter(s=>s.hg!==null&&s.ag!==null).length,0);
   const totalMatches = GROUP_KEYS.reduce((n,g)=>n+GROUPS[g].matches.length,0);
+  const clearableSet = GROUP_KEYS.reduce((n,g)=>
+    n+scores[g].filter((s,mIdx)=>!isFinalMatch(GROUPS[g].matches[mIdx])&&s.hg!==null&&s.ag!==null).length,0);
 
   return (
     <div style={{minHeight:"100vh",background:"#0a0f1e",color:"#e8eaf0",
@@ -555,14 +686,21 @@ export default function WC2026Simulator() {
       {/* Header */}
       <div style={{background:"linear-gradient(135deg,#1a2744 0%,#0d1830 60%,#0a0f1e 100%)",
         borderBottom:"1px solid #1e3a5f",padding:"20px 24px 16px"}}>
-        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:4}}>
-          <span style={{fontSize:24}}>⚽</span>
-          <span style={{fontSize:11,fontWeight:700,letterSpacing:"0.18em",
-            color:"#4a9eff",textTransform:"uppercase"}}>FIFA World Cup 2026 · Group Stage Simulator</span>
+        <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:16}}>
+          <div>
+            <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:4}}>
+              <span style={{fontSize:24}}>⚽</span>
+              <span style={{fontSize:11,fontWeight:700,letterSpacing:"0.18em",
+                color:"#4a9eff",textTransform:"uppercase"}}>FIFA World Cup 2026 · Group Stage Simulator</span>
+            </div>
+            <p style={{margin:"4px 0 0",fontSize:12,color:"#7a90b0"}}>
+              All 12 groups · Full H2H tiebreakers · {totalSet}/{totalMatches} matches set
+            </p>
+          </div>
         </div>
-        <p style={{margin:"4px 0 0",fontSize:12,color:"#7a90b0"}}>
-          All 12 groups · Full H2H tiebreakers · {totalSet}/{totalMatches} matches set
-        </p>
+        <button className="clear-all-button" disabled={clearableSet===0} onClick={clearAllScores} type="button">
+          Clear All
+        </button>
       </div>
 
       <div className="content-shell">
@@ -607,8 +745,8 @@ function GroupPanel({groupKey,group,result,qualifyingThirdGroups,scores,setScore
           <span style={{fontWeight:800,fontSize:15,color:"#4a9eff",letterSpacing:"0.05em"}}>
             GROUP {groupKey}
           </span>
-          <span style={{marginLeft:10,fontSize:11,color:"#4a7090"}}>{group.label}</span>
         </div>
+        <span style={{fontSize:14,fontWeight:800,color:"#7a90b0",letterSpacing:"0.04em"}}>{group.label}</span>
       </div>
       <div>
         {/* Standings */}
@@ -691,7 +829,7 @@ function R32Bracket({matches}) {
 
 function BracketSide({side}) {
   return (
-    <div className={`bracket-side ${side.team ? "" : "bracket-side--empty"}`}>
+    <div className={`bracket-side ${side.team ? "" : "bracket-side--empty"} ${side.locked ? "bracket-side--locked" : ""}`}>
       <span className="bracket-side__seed">{side.label}</span>
       {side.team
         ? <TeamLabel abbr={side.team.abbr} name={side.team.name} variant="bracket"/>

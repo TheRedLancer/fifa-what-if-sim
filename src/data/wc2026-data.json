@@ -3,235 +3,1275 @@
     "tournament": "FIFA World Cup 2026",
     "stage": "Group Stage",
     "generated": "2026-06-24",
-    "note": "MD1+MD2 results verified. MD3 fixtures include win probabilities from SportRadar."
+    "note": "MD1+MD2 results verified. MD3 fixtures include kickoff times in UTC, venue, and win probabilities."
   },
   "groups": {
     "A": {
       "matchday3Date": "2026-06-24",
       "teams": [
-        { "name": "Mexico",       "abbr": "MEX", "w": 2, "d": 0, "l": 0, "gf": 3, "ga": 0, "pts": 6 },
-        { "name": "South Korea",  "abbr": "KOR", "w": 1, "d": 0, "l": 1, "gf": 2, "ga": 2, "pts": 3 },
-        { "name": "Czechia",      "abbr": "CZE", "w": 0, "d": 1, "l": 1, "gf": 2, "ga": 3, "pts": 1 },
-        { "name": "South Africa", "abbr": "RSA", "w": 0, "d": 1, "l": 1, "gf": 1, "ga": 3, "pts": 1 }
+        {
+          "name": "Mexico",
+          "abbr": "MEX",
+          "w": 2,
+          "d": 0,
+          "l": 0,
+          "gf": 3,
+          "ga": 0,
+          "pts": 6
+        },
+        {
+          "name": "South Korea",
+          "abbr": "KOR",
+          "w": 1,
+          "d": 0,
+          "l": 1,
+          "gf": 2,
+          "ga": 2,
+          "pts": 3
+        },
+        {
+          "name": "Czechia",
+          "abbr": "CZE",
+          "w": 0,
+          "d": 1,
+          "l": 1,
+          "gf": 2,
+          "ga": 3,
+          "pts": 1
+        },
+        {
+          "name": "South Africa",
+          "abbr": "RSA",
+          "w": 0,
+          "d": 1,
+          "l": 1,
+          "gf": 1,
+          "ga": 3,
+          "pts": 1
+        }
       ],
       "pastResults": [
-        { "home": "MEX", "away": "RSA", "hg": 2, "ag": 0, "matchday": 1 },
-        { "home": "KOR", "away": "CZE", "hg": 2, "ag": 1, "matchday": 1 },
-        { "home": "CZE", "away": "RSA", "hg": 1, "ag": 1, "matchday": 2 },
-        { "home": "MEX", "away": "KOR", "hg": 1, "ag": 0, "matchday": 2 }
+        {
+          "home": "MEX",
+          "away": "RSA",
+          "hg": 2,
+          "ag": 0,
+          "matchday": 1
+        },
+        {
+          "home": "KOR",
+          "away": "CZE",
+          "hg": 2,
+          "ag": 1,
+          "matchday": 1
+        },
+        {
+          "home": "CZE",
+          "away": "RSA",
+          "hg": 1,
+          "ag": 1,
+          "matchday": 2
+        },
+        {
+          "home": "MEX",
+          "away": "KOR",
+          "hg": 1,
+          "ag": 0,
+          "matchday": 2
+        }
       ],
       "md3Fixtures": [
-        { "home": "CZE", "away": "MEX", "prob": { "home": 25.6, "draw": 25.2, "away": 49.2 } },
-        { "home": "RSA", "away": "KOR", "prob": { "home": 15.5, "draw": 23.2, "away": 61.3 } }
+        {
+          "home": "CZE",
+          "away": "MEX",
+          "kickoffUTC": "2026-06-25T01:00:00Z",
+          "stadium": "Estadio Azteca",
+          "city": "Mexico City",
+          "country": "Mexico",
+          "status": "scheduled",
+          "prob": {
+            "home": 25.6,
+            "draw": 25.2,
+            "away": 49.2
+          }
+        },
+        {
+          "home": "RSA",
+          "away": "KOR",
+          "kickoffUTC": "2026-06-25T01:00:00Z",
+          "stadium": "Estadio BBVA",
+          "city": "Monterrey",
+          "country": "Mexico",
+          "status": "scheduled",
+          "prob": {
+            "home": 15.5,
+            "draw": 23.2,
+            "away": 61.3
+          }
+        }
       ]
     },
     "B": {
       "matchday3Date": "2026-06-24",
       "teams": [
-        { "name": "Canada",      "abbr": "CAN", "w": 1, "d": 1, "l": 0, "gf": 7, "ga": 1, "pts": 4 },
-        { "name": "Switzerland", "abbr": "SUI", "w": 1, "d": 1, "l": 0, "gf": 5, "ga": 2, "pts": 4 },
-        { "name": "Bosnia",      "abbr": "BIH", "w": 0, "d": 1, "l": 1, "gf": 2, "ga": 5, "pts": 1 },
-        { "name": "Qatar",       "abbr": "QAT", "w": 0, "d": 1, "l": 1, "gf": 1, "ga": 7, "pts": 1 }
+        {
+          "name": "Canada",
+          "abbr": "CAN",
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 7,
+          "ga": 1,
+          "pts": 4
+        },
+        {
+          "name": "Switzerland",
+          "abbr": "SUI",
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 5,
+          "ga": 2,
+          "pts": 4
+        },
+        {
+          "name": "Bosnia",
+          "abbr": "BIH",
+          "w": 0,
+          "d": 1,
+          "l": 1,
+          "gf": 2,
+          "ga": 5,
+          "pts": 1
+        },
+        {
+          "name": "Qatar",
+          "abbr": "QAT",
+          "w": 0,
+          "d": 1,
+          "l": 1,
+          "gf": 1,
+          "ga": 7,
+          "pts": 1
+        }
       ],
       "pastResults": [
-        { "home": "CAN", "away": "BIH", "hg": 1, "ag": 1, "matchday": 1 },
-        { "home": "SUI", "away": "QAT", "hg": 1, "ag": 1, "matchday": 1 },
-        { "home": "SUI", "away": "BIH", "hg": 4, "ag": 1, "matchday": 2 },
-        { "home": "CAN", "away": "QAT", "hg": 6, "ag": 0, "matchday": 2 }
+        {
+          "home": "CAN",
+          "away": "BIH",
+          "hg": 1,
+          "ag": 1,
+          "matchday": 1
+        },
+        {
+          "home": "SUI",
+          "away": "QAT",
+          "hg": 1,
+          "ag": 1,
+          "matchday": 1
+        },
+        {
+          "home": "SUI",
+          "away": "BIH",
+          "hg": 4,
+          "ag": 1,
+          "matchday": 2
+        },
+        {
+          "home": "CAN",
+          "away": "QAT",
+          "hg": 6,
+          "ag": 0,
+          "matchday": 2
+        }
       ],
       "md3Fixtures": [
-        { "home": "SUI", "away": "CAN", "prob": { "home": 38.3, "draw": 31.9, "away": 29.8 } },
-        { "home": "BIH", "away": "QAT", "prob": { "home": 72.1, "draw": 16.7, "away": 11.2 } }
+        {
+          "home": "SUI",
+          "away": "CAN",
+          "kickoffUTC": "2026-06-24T19:00:00Z",
+          "stadium": "BC Place",
+          "city": "Vancouver",
+          "country": "Canada",
+          "status": "final",
+          "finalScore": {
+            "home": 2,
+            "away": 1
+          },
+          "prob": {
+            "home": 38.3,
+            "draw": 31.9,
+            "away": 29.8
+          }
+        },
+        {
+          "home": "BIH",
+          "away": "QAT",
+          "kickoffUTC": "2026-06-24T19:00:00Z",
+          "stadium": "Lumen Field",
+          "city": "Seattle",
+          "country": "USA",
+          "status": "final",
+          "finalScore": {
+            "home": 3,
+            "away": 1
+          },
+          "prob": {
+            "home": 72.1,
+            "draw": 16.7,
+            "away": 11.2
+          }
+        }
       ]
     },
     "C": {
       "matchday3Date": "2026-06-24",
       "teams": [
-        { "name": "Brazil",   "abbr": "BRA", "w": 1, "d": 1, "l": 0, "gf": 4, "ga": 1, "pts": 4 },
-        { "name": "Morocco",  "abbr": "MAR", "w": 1, "d": 1, "l": 0, "gf": 2, "ga": 1, "pts": 4 },
-        { "name": "Scotland", "abbr": "SCO", "w": 1, "d": 0, "l": 1, "gf": 1, "ga": 1, "pts": 3 },
-        { "name": "Haiti",    "abbr": "HTI", "w": 0, "d": 0, "l": 2, "gf": 0, "ga": 4, "pts": 0 }
+        {
+          "name": "Brazil",
+          "abbr": "BRA",
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 4,
+          "ga": 1,
+          "pts": 4
+        },
+        {
+          "name": "Morocco",
+          "abbr": "MAR",
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 2,
+          "ga": 1,
+          "pts": 4
+        },
+        {
+          "name": "Scotland",
+          "abbr": "SCO",
+          "w": 1,
+          "d": 0,
+          "l": 1,
+          "gf": 1,
+          "ga": 1,
+          "pts": 3
+        },
+        {
+          "name": "Haiti",
+          "abbr": "HTI",
+          "w": 0,
+          "d": 0,
+          "l": 2,
+          "gf": 0,
+          "ga": 4,
+          "pts": 0
+        }
       ],
       "pastResults": [
-        { "home": "BRA", "away": "MAR", "hg": 1, "ag": 1, "matchday": 1 },
-        { "home": "SCO", "away": "HTI", "hg": 1, "ag": 0, "matchday": 1 },
-        { "home": "MAR", "away": "SCO", "hg": 1, "ag": 0, "matchday": 2 },
-        { "home": "BRA", "away": "HTI", "hg": 3, "ag": 0, "matchday": 2 }
+        {
+          "home": "BRA",
+          "away": "MAR",
+          "hg": 1,
+          "ag": 1,
+          "matchday": 1
+        },
+        {
+          "home": "SCO",
+          "away": "HTI",
+          "hg": 1,
+          "ag": 0,
+          "matchday": 1
+        },
+        {
+          "home": "MAR",
+          "away": "SCO",
+          "hg": 1,
+          "ag": 0,
+          "matchday": 2
+        },
+        {
+          "home": "BRA",
+          "away": "HTI",
+          "hg": 3,
+          "ag": 0,
+          "matchday": 2
+        }
       ],
       "md3Fixtures": [
-        { "home": "SCO", "away": "BRA", "prob": { "home": 9.2,  "draw": 16.6, "away": 74.2 } },
-        { "home": "MAR", "away": "HTI", "prob": { "home": 82.9, "draw": 11.9, "away": 5.2  } }
+        {
+          "home": "SCO",
+          "away": "BRA",
+          "kickoffUTC": "2026-06-24T22:00:00Z",
+          "stadium": "Hard Rock Stadium",
+          "city": "Miami Gardens",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 9.2,
+            "draw": 16.6,
+            "away": 74.2
+          }
+        },
+        {
+          "home": "MAR",
+          "away": "HTI",
+          "kickoffUTC": "2026-06-24T22:00:00Z",
+          "stadium": "SoFi Stadium",
+          "city": "Inglewood",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 82.9,
+            "draw": 11.9,
+            "away": 5.2
+          }
+        }
       ]
     },
     "D": {
       "matchday3Date": "2026-06-25",
       "teams": [
-        { "name": "USA",       "abbr": "USA", "w": 2, "d": 0, "l": 0, "gf": 6, "ga": 1, "pts": 6 },
-        { "name": "Australia", "abbr": "AUS", "w": 1, "d": 0, "l": 1, "gf": 2, "ga": 2, "pts": 3 },
-        { "name": "Paraguay",  "abbr": "PAR", "w": 1, "d": 0, "l": 1, "gf": 2, "ga": 4, "pts": 3 },
-        { "name": "Turkey",    "abbr": "TUR", "w": 0, "d": 0, "l": 2, "gf": 0, "ga": 3, "pts": 0 }
+        {
+          "name": "USA",
+          "abbr": "USA",
+          "w": 2,
+          "d": 0,
+          "l": 0,
+          "gf": 6,
+          "ga": 1,
+          "pts": 6
+        },
+        {
+          "name": "Australia",
+          "abbr": "AUS",
+          "w": 1,
+          "d": 0,
+          "l": 1,
+          "gf": 2,
+          "ga": 2,
+          "pts": 3
+        },
+        {
+          "name": "Paraguay",
+          "abbr": "PAR",
+          "w": 1,
+          "d": 0,
+          "l": 1,
+          "gf": 2,
+          "ga": 4,
+          "pts": 3
+        },
+        {
+          "name": "Turkey",
+          "abbr": "TUR",
+          "w": 0,
+          "d": 0,
+          "l": 2,
+          "gf": 0,
+          "ga": 3,
+          "pts": 0
+        }
       ],
       "pastResults": [
-        { "home": "USA", "away": "PAR", "hg": 4, "ag": 1, "matchday": 1 },
-        { "home": "AUS", "away": "TUR", "hg": 2, "ag": 0, "matchday": 1 },
-        { "home": "USA", "away": "AUS", "hg": 2, "ag": 0, "matchday": 2 },
-        { "home": "TUR", "away": "PAR", "hg": 0, "ag": 1, "matchday": 2 }
+        {
+          "home": "USA",
+          "away": "PAR",
+          "hg": 4,
+          "ag": 1,
+          "matchday": 1
+        },
+        {
+          "home": "AUS",
+          "away": "TUR",
+          "hg": 2,
+          "ag": 0,
+          "matchday": 1
+        },
+        {
+          "home": "USA",
+          "away": "AUS",
+          "hg": 2,
+          "ag": 0,
+          "matchday": 2
+        },
+        {
+          "home": "TUR",
+          "away": "PAR",
+          "hg": 0,
+          "ag": 1,
+          "matchday": 2
+        }
       ],
       "md3Fixtures": [
-        { "home": "TUR", "away": "USA", "prob": { "home": 12.1, "draw": 19.2, "away": 68.7 } },
-        { "home": "PAR", "away": "AUS", "prob": { "home": 38.5, "draw": 28.6, "away": 32.9 } }
+        {
+          "home": "TUR",
+          "away": "USA",
+          "kickoffUTC": "2026-06-26T02:00:00Z",
+          "stadium": "SoFi Stadium",
+          "city": "Inglewood",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 12.1,
+            "draw": 19.2,
+            "away": 68.7
+          }
+        },
+        {
+          "home": "PAR",
+          "away": "AUS",
+          "kickoffUTC": "2026-06-26T02:00:00Z",
+          "stadium": "Levi's Stadium",
+          "city": "Santa Clara",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 38.5,
+            "draw": 28.6,
+            "away": 32.9
+          }
+        }
       ]
     },
     "E": {
       "matchday3Date": "2026-06-25",
       "teams": [
-        { "name": "Germany",     "abbr": "GER", "w": 2, "d": 0, "l": 0, "gf": 9, "ga": 2, "pts": 6 },
-        { "name": "Ivory Coast", "abbr": "CIV", "w": 1, "d": 0, "l": 1, "gf": 2, "ga": 2, "pts": 3 },
-        { "name": "Ecuador",     "abbr": "ECU", "w": 0, "d": 1, "l": 1, "gf": 0, "ga": 1, "pts": 1 },
-        { "name": "Curacao",     "abbr": "CUW", "w": 0, "d": 1, "l": 1, "gf": 1, "ga": 7, "pts": 1 }
+        {
+          "name": "Germany",
+          "abbr": "GER",
+          "w": 2,
+          "d": 0,
+          "l": 0,
+          "gf": 9,
+          "ga": 2,
+          "pts": 6
+        },
+        {
+          "name": "Ivory Coast",
+          "abbr": "CIV",
+          "w": 1,
+          "d": 0,
+          "l": 1,
+          "gf": 2,
+          "ga": 2,
+          "pts": 3
+        },
+        {
+          "name": "Ecuador",
+          "abbr": "ECU",
+          "w": 0,
+          "d": 1,
+          "l": 1,
+          "gf": 0,
+          "ga": 1,
+          "pts": 1
+        },
+        {
+          "name": "Curacao",
+          "abbr": "CUW",
+          "w": 0,
+          "d": 1,
+          "l": 1,
+          "gf": 1,
+          "ga": 7,
+          "pts": 1
+        }
       ],
       "pastResults": [
-        { "home": "GER", "away": "CUW", "hg": 7, "ag": 1, "matchday": 1 },
-        { "home": "CIV", "away": "ECU", "hg": 1, "ag": 0, "matchday": 1 },
-        { "home": "GER", "away": "CIV", "hg": 2, "ag": 1, "matchday": 2 },
-        { "home": "ECU", "away": "CUW", "hg": 0, "ag": 0, "matchday": 2 }
+        {
+          "home": "GER",
+          "away": "CUW",
+          "hg": 7,
+          "ag": 1,
+          "matchday": 1
+        },
+        {
+          "home": "CIV",
+          "away": "ECU",
+          "hg": 1,
+          "ag": 0,
+          "matchday": 1
+        },
+        {
+          "home": "GER",
+          "away": "CIV",
+          "hg": 2,
+          "ag": 1,
+          "matchday": 2
+        },
+        {
+          "home": "ECU",
+          "away": "CUW",
+          "hg": 0,
+          "ag": 0,
+          "matchday": 2
+        }
       ],
       "md3Fixtures": [
-        { "home": "ECU", "away": "GER", "prob": { "home": 24.3, "draw": 23.5, "away": 52.2 } },
-        { "home": "CUW", "away": "CIV", "prob": { "home": 4.8,  "draw": 10.5, "away": 84.7 } }
+        {
+          "home": "ECU",
+          "away": "GER",
+          "kickoffUTC": "2026-06-25T20:00:00Z",
+          "stadium": "MetLife Stadium",
+          "city": "East Rutherford",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 24.3,
+            "draw": 23.5,
+            "away": 52.2
+          }
+        },
+        {
+          "home": "CUW",
+          "away": "CIV",
+          "kickoffUTC": "2026-06-25T20:00:00Z",
+          "stadium": "Lincoln Financial Field",
+          "city": "Philadelphia",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 4.8,
+            "draw": 10.5,
+            "away": 84.7
+          }
+        }
       ]
     },
     "F": {
       "matchday3Date": "2026-06-25",
       "teams": [
-        { "name": "Netherlands", "abbr": "NED", "w": 1, "d": 1, "l": 0, "gf": 7, "ga": 3, "pts": 4 },
-        { "name": "Japan",       "abbr": "JPN", "w": 1, "d": 1, "l": 0, "gf": 6, "ga": 2, "pts": 4 },
-        { "name": "Sweden",      "abbr": "SWE", "w": 1, "d": 0, "l": 1, "gf": 6, "ga": 6, "pts": 3 },
-        { "name": "Tunisia",     "abbr": "TUN", "w": 0, "d": 0, "l": 2, "gf": 1, "ga": 9, "pts": 0 }
+        {
+          "name": "Netherlands",
+          "abbr": "NED",
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 7,
+          "ga": 3,
+          "pts": 4
+        },
+        {
+          "name": "Japan",
+          "abbr": "JPN",
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 6,
+          "ga": 2,
+          "pts": 4
+        },
+        {
+          "name": "Sweden",
+          "abbr": "SWE",
+          "w": 1,
+          "d": 0,
+          "l": 1,
+          "gf": 6,
+          "ga": 6,
+          "pts": 3
+        },
+        {
+          "name": "Tunisia",
+          "abbr": "TUN",
+          "w": 0,
+          "d": 0,
+          "l": 2,
+          "gf": 1,
+          "ga": 9,
+          "pts": 0
+        }
       ],
       "pastResults": [
-        { "home": "NED", "away": "JPN", "hg": 2, "ag": 2, "matchday": 1 },
-        { "home": "SWE", "away": "TUN", "hg": 5, "ag": 1, "matchday": 1 },
-        { "home": "NED", "away": "SWE", "hg": 5, "ag": 1, "matchday": 2 },
-        { "home": "JPN", "away": "TUN", "hg": 4, "ag": 0, "matchday": 2 }
+        {
+          "home": "NED",
+          "away": "JPN",
+          "hg": 2,
+          "ag": 2,
+          "matchday": 1
+        },
+        {
+          "home": "SWE",
+          "away": "TUN",
+          "hg": 5,
+          "ag": 1,
+          "matchday": 1
+        },
+        {
+          "home": "NED",
+          "away": "SWE",
+          "hg": 5,
+          "ag": 1,
+          "matchday": 2
+        },
+        {
+          "home": "JPN",
+          "away": "TUN",
+          "hg": 4,
+          "ag": 0,
+          "matchday": 2
+        }
       ],
       "md3Fixtures": [
-        { "home": "TUN", "away": "NED", "prob": { "home": 3.1,  "draw": 8.5,  "away": 88.4 } },
-        { "home": "JPN", "away": "SWE", "prob": { "home": 50.9, "draw": 26.7, "away": 22.4 } }
+        {
+          "home": "TUN",
+          "away": "NED",
+          "kickoffUTC": "2026-06-25T23:00:00Z",
+          "stadium": "Arrowhead Stadium",
+          "city": "Kansas City",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 3.1,
+            "draw": 8.5,
+            "away": 88.4
+          }
+        },
+        {
+          "home": "JPN",
+          "away": "SWE",
+          "kickoffUTC": "2026-06-25T23:00:00Z",
+          "stadium": "AT&T Stadium",
+          "city": "Arlington",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 50.9,
+            "draw": 26.7,
+            "away": 22.4
+          }
+        }
       ]
     },
     "G": {
       "matchday3Date": "2026-06-26",
       "teams": [
-        { "name": "Egypt",       "abbr": "EGY", "w": 1, "d": 1, "l": 0, "gf": 4, "ga": 2, "pts": 4 },
-        { "name": "IR Iran",     "abbr": "IRN", "w": 0, "d": 2, "l": 0, "gf": 2, "ga": 2, "pts": 2 },
-        { "name": "Belgium",     "abbr": "BEL", "w": 0, "d": 2, "l": 0, "gf": 1, "ga": 1, "pts": 2 },
-        { "name": "New Zealand", "abbr": "NZL", "w": 0, "d": 1, "l": 1, "gf": 3, "ga": 5, "pts": 1 }
+        {
+          "name": "Egypt",
+          "abbr": "EGY",
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 4,
+          "ga": 2,
+          "pts": 4
+        },
+        {
+          "name": "IR Iran",
+          "abbr": "IRN",
+          "w": 0,
+          "d": 2,
+          "l": 0,
+          "gf": 2,
+          "ga": 2,
+          "pts": 2
+        },
+        {
+          "name": "Belgium",
+          "abbr": "BEL",
+          "w": 0,
+          "d": 2,
+          "l": 0,
+          "gf": 1,
+          "ga": 1,
+          "pts": 2
+        },
+        {
+          "name": "New Zealand",
+          "abbr": "NZL",
+          "w": 0,
+          "d": 1,
+          "l": 1,
+          "gf": 3,
+          "ga": 5,
+          "pts": 1
+        }
       ],
       "pastResults": [
-        { "home": "BEL", "away": "EGY", "hg": 1, "ag": 1, "matchday": 1 },
-        { "home": "IRN", "away": "NZL", "hg": 2, "ag": 2, "matchday": 1 },
-        { "home": "BEL", "away": "IRN", "hg": 0, "ag": 0, "matchday": 2 },
-        { "home": "EGY", "away": "NZL", "hg": 3, "ag": 1, "matchday": 2 }
+        {
+          "home": "BEL",
+          "away": "EGY",
+          "hg": 1,
+          "ag": 1,
+          "matchday": 1
+        },
+        {
+          "home": "IRN",
+          "away": "NZL",
+          "hg": 2,
+          "ag": 2,
+          "matchday": 1
+        },
+        {
+          "home": "BEL",
+          "away": "IRN",
+          "hg": 0,
+          "ag": 0,
+          "matchday": 2
+        },
+        {
+          "home": "EGY",
+          "away": "NZL",
+          "hg": 3,
+          "ag": 1,
+          "matchday": 2
+        }
       ],
       "md3Fixtures": [
-        { "home": "EGY", "away": "IRN", "prob": { "home": 44.2, "draw": 27.1, "away": 28.7 } },
-        { "home": "NZL", "away": "BEL", "prob": { "home": 11.3, "draw": 19.4, "away": 69.3 } }
+        {
+          "home": "EGY",
+          "away": "IRN",
+          "kickoffUTC": "2026-06-27T03:00:00Z",
+          "stadium": "Lumen Field",
+          "city": "Seattle",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 44.2,
+            "draw": 27.1,
+            "away": 28.7
+          }
+        },
+        {
+          "home": "NZL",
+          "away": "BEL",
+          "kickoffUTC": "2026-06-27T03:00:00Z",
+          "stadium": "BC Place",
+          "city": "Vancouver",
+          "country": "Canada",
+          "status": "scheduled",
+          "prob": {
+            "home": 11.3,
+            "draw": 19.4,
+            "away": 69.3
+          }
+        }
       ]
     },
     "H": {
       "matchday3Date": "2026-06-26",
       "teams": [
-        { "name": "Spain",        "abbr": "ESP", "w": 1, "d": 1, "l": 0, "gf": 4, "ga": 0, "pts": 4 },
-        { "name": "Uruguay",      "abbr": "URU", "w": 0, "d": 2, "l": 0, "gf": 3, "ga": 3, "pts": 2 },
-        { "name": "Cape Verde",   "abbr": "CPV", "w": 0, "d": 2, "l": 0, "gf": 2, "ga": 2, "pts": 2 },
-        { "name": "Saudi Arabia", "abbr": "KSA", "w": 0, "d": 1, "l": 1, "gf": 1, "ga": 5, "pts": 1 }
+        {
+          "name": "Spain",
+          "abbr": "ESP",
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 4,
+          "ga": 0,
+          "pts": 4
+        },
+        {
+          "name": "Uruguay",
+          "abbr": "URU",
+          "w": 0,
+          "d": 2,
+          "l": 0,
+          "gf": 3,
+          "ga": 3,
+          "pts": 2
+        },
+        {
+          "name": "Cape Verde",
+          "abbr": "CPV",
+          "w": 0,
+          "d": 2,
+          "l": 0,
+          "gf": 2,
+          "ga": 2,
+          "pts": 2
+        },
+        {
+          "name": "Saudi Arabia",
+          "abbr": "KSA",
+          "w": 0,
+          "d": 1,
+          "l": 1,
+          "gf": 1,
+          "ga": 5,
+          "pts": 1
+        }
       ],
       "pastResults": [
-        { "home": "ESP", "away": "CPV", "hg": 0, "ag": 0, "matchday": 1 },
-        { "home": "KSA", "away": "URU", "hg": 1, "ag": 1, "matchday": 1 },
-        { "home": "ESP", "away": "KSA", "hg": 4, "ag": 0, "matchday": 2 },
-        { "home": "URU", "away": "CPV", "hg": 2, "ag": 2, "matchday": 2 }
+        {
+          "home": "ESP",
+          "away": "CPV",
+          "hg": 0,
+          "ag": 0,
+          "matchday": 1
+        },
+        {
+          "home": "KSA",
+          "away": "URU",
+          "hg": 1,
+          "ag": 1,
+          "matchday": 1
+        },
+        {
+          "home": "ESP",
+          "away": "KSA",
+          "hg": 4,
+          "ag": 0,
+          "matchday": 2
+        },
+        {
+          "home": "URU",
+          "away": "CPV",
+          "hg": 2,
+          "ag": 2,
+          "matchday": 2
+        }
       ],
       "md3Fixtures": [
-        { "home": "URU", "away": "ESP", "prob": { "home": 22.1, "draw": 26.4, "away": 51.5 } },
-        { "home": "CPV", "away": "KSA", "prob": { "home": 42.3, "draw": 28.6, "away": 29.1 } }
+        {
+          "home": "URU",
+          "away": "ESP",
+          "kickoffUTC": "2026-06-27T00:00:00Z",
+          "stadium": "Estadio Akron",
+          "city": "Zapopan",
+          "country": "Mexico",
+          "status": "scheduled",
+          "prob": {
+            "home": 22.1,
+            "draw": 26.4,
+            "away": 51.5
+          }
+        },
+        {
+          "home": "CPV",
+          "away": "KSA",
+          "kickoffUTC": "2026-06-27T00:00:00Z",
+          "stadium": "NRG Stadium",
+          "city": "Houston",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 42.3,
+            "draw": 28.6,
+            "away": 29.1
+          }
+        }
       ]
     },
     "I": {
       "matchday3Date": "2026-06-26",
       "teams": [
-        { "name": "France",  "abbr": "FRA", "w": 2, "d": 0, "l": 0, "gf": 6, "ga": 1, "pts": 6 },
-        { "name": "Norway",  "abbr": "NOR", "w": 2, "d": 0, "l": 0, "gf": 7, "ga": 3, "pts": 6 },
-        { "name": "Senegal", "abbr": "SEN", "w": 0, "d": 0, "l": 2, "gf": 3, "ga": 6, "pts": 0 },
-        { "name": "Iraq",    "abbr": "IRQ", "w": 0, "d": 0, "l": 2, "gf": 1, "ga": 7, "pts": 0 }
+        {
+          "name": "France",
+          "abbr": "FRA",
+          "w": 2,
+          "d": 0,
+          "l": 0,
+          "gf": 6,
+          "ga": 1,
+          "pts": 6
+        },
+        {
+          "name": "Norway",
+          "abbr": "NOR",
+          "w": 2,
+          "d": 0,
+          "l": 0,
+          "gf": 7,
+          "ga": 3,
+          "pts": 6
+        },
+        {
+          "name": "Senegal",
+          "abbr": "SEN",
+          "w": 0,
+          "d": 0,
+          "l": 2,
+          "gf": 3,
+          "ga": 6,
+          "pts": 0
+        },
+        {
+          "name": "Iraq",
+          "abbr": "IRQ",
+          "w": 0,
+          "d": 0,
+          "l": 2,
+          "gf": 1,
+          "ga": 7,
+          "pts": 0
+        }
       ],
       "pastResults": [
-        { "home": "FRA", "away": "SEN", "hg": 3, "ag": 1, "matchday": 1 },
-        { "home": "NOR", "away": "IRQ", "hg": 4, "ag": 1, "matchday": 1 },
-        { "home": "FRA", "away": "IRQ", "hg": 3, "ag": 0, "matchday": 2 },
-        { "home": "NOR", "away": "SEN", "hg": 3, "ag": 2, "matchday": 2 }
+        {
+          "home": "FRA",
+          "away": "SEN",
+          "hg": 3,
+          "ag": 1,
+          "matchday": 1
+        },
+        {
+          "home": "NOR",
+          "away": "IRQ",
+          "hg": 4,
+          "ag": 1,
+          "matchday": 1
+        },
+        {
+          "home": "FRA",
+          "away": "IRQ",
+          "hg": 3,
+          "ag": 0,
+          "matchday": 2
+        },
+        {
+          "home": "NOR",
+          "away": "SEN",
+          "hg": 3,
+          "ag": 2,
+          "matchday": 2
+        }
       ],
       "md3Fixtures": [
-        { "home": "NOR", "away": "FRA", "prob": { "home": 31.2, "draw": 27.8, "away": 41.0 } },
-        { "home": "SEN", "away": "IRQ", "prob": { "home": 51.3, "draw": 26.4, "away": 22.3 } }
+        {
+          "home": "NOR",
+          "away": "FRA",
+          "kickoffUTC": "2026-06-26T19:00:00Z",
+          "stadium": "Gillette Stadium",
+          "city": "Foxborough",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 31.2,
+            "draw": 27.8,
+            "away": 41.0
+          }
+        },
+        {
+          "home": "SEN",
+          "away": "IRQ",
+          "kickoffUTC": "2026-06-26T19:00:00Z",
+          "stadium": "BMO Field",
+          "city": "Toronto",
+          "country": "Canada",
+          "status": "scheduled",
+          "prob": {
+            "home": 51.3,
+            "draw": 26.4,
+            "away": 22.3
+          }
+        }
       ]
     },
     "J": {
       "matchday3Date": "2026-06-27",
       "teams": [
-        { "name": "Argentina", "abbr": "ARG", "w": 2, "d": 0, "l": 0, "gf": 4, "ga": 0, "pts": 6 },
-        { "name": "Austria",   "abbr": "AUT", "w": 1, "d": 0, "l": 1, "gf": 4, "ga": 4, "pts": 3 },
-        { "name": "Algeria",   "abbr": "DZA", "w": 1, "d": 0, "l": 1, "gf": 2, "ga": 4, "pts": 3 },
-        { "name": "Jordan",    "abbr": "JOR", "w": 0, "d": 0, "l": 2, "gf": 2, "ga": 4, "pts": 0 }
+        {
+          "name": "Argentina",
+          "abbr": "ARG",
+          "w": 2,
+          "d": 0,
+          "l": 0,
+          "gf": 4,
+          "ga": 0,
+          "pts": 6
+        },
+        {
+          "name": "Austria",
+          "abbr": "AUT",
+          "w": 1,
+          "d": 0,
+          "l": 1,
+          "gf": 3,
+          "ga": 2,
+          "pts": 3
+        },
+        {
+          "name": "Algeria",
+          "abbr": "DZA",
+          "w": 1,
+          "d": 0,
+          "l": 1,
+          "gf": 2,
+          "ga": 4,
+          "pts": 3
+        },
+        {
+          "name": "Jordan",
+          "abbr": "JOR",
+          "w": 0,
+          "d": 0,
+          "l": 2,
+          "gf": 2,
+          "ga": 5,
+          "pts": 0
+        }
       ],
       "pastResults": [
-        { "home": "ARG", "away": "DZA", "hg": 3, "ag": 0, "matchday": 1 },
-        { "home": "AUT", "away": "JOR", "hg": 3, "ag": 1, "matchday": 1 },
-        { "home": "ARG", "away": "AUT", "hg": 1, "ag": 0, "matchday": 2 },
-        { "home": "JOR", "away": "DZA", "hg": 1, "ag": 2, "matchday": 2 }
+        {
+          "home": "ARG",
+          "away": "DZA",
+          "hg": 3,
+          "ag": 0,
+          "matchday": 1
+        },
+        {
+          "home": "AUT",
+          "away": "JOR",
+          "hg": 3,
+          "ag": 1,
+          "matchday": 1
+        },
+        {
+          "home": "ARG",
+          "away": "AUT",
+          "hg": 1,
+          "ag": 0,
+          "matchday": 2
+        },
+        {
+          "home": "JOR",
+          "away": "DZA",
+          "hg": 1,
+          "ag": 2,
+          "matchday": 2
+        }
       ],
       "md3Fixtures": [
-        { "home": "ARG", "away": "DZA", "prob": { "home": 61.4, "draw": 21.3, "away": 17.3 } },
-        { "home": "AUT", "away": "JOR", "prob": { "home": 72.8, "draw": 16.9, "away": 10.3 } }
+        {
+          "home": "JOR",
+          "away": "ARG",
+          "kickoffUTC": "2026-06-28T02:00:00Z",
+          "stadium": "AT&T Stadium",
+          "city": "Arlington",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 4.2,
+            "draw": 12.1,
+            "away": 83.7
+          }
+        },
+        {
+          "home": "DZA",
+          "away": "AUT",
+          "kickoffUTC": "2026-06-28T02:00:00Z",
+          "stadium": "Arrowhead Stadium",
+          "city": "Kansas City",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 38.6,
+            "draw": 27.5,
+            "away": 33.9
+          }
+        }
       ]
     },
     "K": {
       "matchday3Date": "2026-06-27",
       "teams": [
-        { "name": "Colombia",  "abbr": "COL", "w": 2, "d": 0, "l": 0, "gf": 4, "ga": 1, "pts": 6 },
-        { "name": "Portugal",  "abbr": "POR", "w": 1, "d": 1, "l": 0, "gf": 6, "ga": 1, "pts": 4 },
-        { "name": "Congo DR",  "abbr": "COD", "w": 0, "d": 1, "l": 1, "gf": 1, "ga": 2, "pts": 1 },
-        { "name": "Uzbekistan","abbr": "UZB", "w": 0, "d": 0, "l": 2, "gf": 1, "ga": 8, "pts": 0 }
+        {
+          "name": "Colombia",
+          "abbr": "COL",
+          "w": 2,
+          "d": 0,
+          "l": 0,
+          "gf": 4,
+          "ga": 1,
+          "pts": 6
+        },
+        {
+          "name": "Portugal",
+          "abbr": "POR",
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 6,
+          "ga": 1,
+          "pts": 4
+        },
+        {
+          "name": "Congo DR",
+          "abbr": "COD",
+          "w": 0,
+          "d": 1,
+          "l": 1,
+          "gf": 1,
+          "ga": 2,
+          "pts": 1
+        },
+        {
+          "name": "Uzbekistan",
+          "abbr": "UZB",
+          "w": 0,
+          "d": 0,
+          "l": 2,
+          "gf": 1,
+          "ga": 8,
+          "pts": 0
+        }
       ],
       "pastResults": [
-        { "home": "POR", "away": "COD", "hg": 1, "ag": 1, "matchday": 1 },
-        { "home": "COL", "away": "UZB", "hg": 3, "ag": 1, "matchday": 1 },
-        { "home": "POR", "away": "UZB", "hg": 5, "ag": 0, "matchday": 2 },
-        { "home": "COL", "away": "COD", "hg": 1, "ag": 0, "matchday": 2 }
+        {
+          "home": "POR",
+          "away": "COD",
+          "hg": 1,
+          "ag": 1,
+          "matchday": 1
+        },
+        {
+          "home": "COL",
+          "away": "UZB",
+          "hg": 3,
+          "ag": 1,
+          "matchday": 1
+        },
+        {
+          "home": "POR",
+          "away": "UZB",
+          "hg": 5,
+          "ag": 0,
+          "matchday": 2
+        },
+        {
+          "home": "COL",
+          "away": "COD",
+          "hg": 1,
+          "ag": 0,
+          "matchday": 2
+        }
       ],
       "md3Fixtures": [
-        { "home": "COL", "away": "UZB", "prob": { "home": 88.2, "draw": 8.1, "away": 3.7 } },
-        { "home": "COD", "away": "POR", "prob": { "home": 9.4,  "draw": 16.8, "away": 73.8 } }
+        {
+          "home": "COL",
+          "away": "POR",
+          "kickoffUTC": "2026-06-27T23:30:00Z",
+          "stadium": "Hard Rock Stadium",
+          "city": "Miami Gardens",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 40.1,
+            "draw": 27.3,
+            "away": 32.6
+          }
+        },
+        {
+          "home": "COD",
+          "away": "UZB",
+          "kickoffUTC": "2026-06-27T23:30:00Z",
+          "stadium": "Mercedes-Benz Stadium",
+          "city": "Atlanta",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 62.4,
+            "draw": 22.1,
+            "away": 15.5
+          }
+        }
       ]
     },
     "L": {
       "matchday3Date": "2026-06-27",
       "teams": [
-        { "name": "England", "abbr": "ENG", "w": 1, "d": 1, "l": 0, "gf": 4, "ga": 2, "pts": 4 },
-        { "name": "Ghana",   "abbr": "GHA", "w": 1, "d": 1, "l": 0, "gf": 1, "ga": 0, "pts": 4 },
-        { "name": "Croatia", "abbr": "CRO", "w": 1, "d": 0, "l": 1, "gf": 3, "ga": 4, "pts": 3 },
-        { "name": "Panama",  "abbr": "PAN", "w": 0, "d": 0, "l": 2, "gf": 0, "ga": 2, "pts": 0 }
+        {
+          "name": "England",
+          "abbr": "ENG",
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 4,
+          "ga": 2,
+          "pts": 4
+        },
+        {
+          "name": "Ghana",
+          "abbr": "GHA",
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 1,
+          "ga": 0,
+          "pts": 4
+        },
+        {
+          "name": "Croatia",
+          "abbr": "CRO",
+          "w": 1,
+          "d": 0,
+          "l": 1,
+          "gf": 3,
+          "ga": 4,
+          "pts": 3
+        },
+        {
+          "name": "Panama",
+          "abbr": "PAN",
+          "w": 0,
+          "d": 0,
+          "l": 2,
+          "gf": 0,
+          "ga": 2,
+          "pts": 0
+        }
       ],
       "pastResults": [
-        { "home": "ENG", "away": "CRO", "hg": 4, "ag": 2, "matchday": 1 },
-        { "home": "GHA", "away": "PAN", "hg": 1, "ag": 0, "matchday": 1 },
-        { "home": "ENG", "away": "GHA", "hg": 0, "ag": 0, "matchday": 2 },
-        { "home": "CRO", "away": "PAN", "hg": 1, "ag": 0, "matchday": 2 }
+        {
+          "home": "ENG",
+          "away": "CRO",
+          "hg": 4,
+          "ag": 2,
+          "matchday": 1
+        },
+        {
+          "home": "GHA",
+          "away": "PAN",
+          "hg": 1,
+          "ag": 0,
+          "matchday": 1
+        },
+        {
+          "home": "ENG",
+          "away": "GHA",
+          "hg": 0,
+          "ag": 0,
+          "matchday": 2
+        },
+        {
+          "home": "CRO",
+          "away": "PAN",
+          "hg": 1,
+          "ag": 0,
+          "matchday": 2
+        }
       ],
       "md3Fixtures": [
-        { "home": "ENG", "away": "PAN", "prob": { "home": 91.2, "draw": 6.2, "away": 2.6 } },
-        { "home": "GHA", "away": "CRO", "prob": { "home": 38.4, "draw": 28.9, "away": 32.7 } }
+        {
+          "home": "PAN",
+          "away": "ENG",
+          "kickoffUTC": "2026-06-27T21:00:00Z",
+          "stadium": "MetLife Stadium",
+          "city": "East Rutherford",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 2.6,
+            "draw": 6.2,
+            "away": 91.2
+          }
+        },
+        {
+          "home": "CRO",
+          "away": "GHA",
+          "kickoffUTC": "2026-06-27T21:00:00Z",
+          "stadium": "Lincoln Financial Field",
+          "city": "Philadelphia",
+          "country": "USA",
+          "status": "scheduled",
+          "prob": {
+            "home": 32.7,
+            "draw": 28.9,
+            "away": 38.4
+          }
+        }
       ]
     }
   },
