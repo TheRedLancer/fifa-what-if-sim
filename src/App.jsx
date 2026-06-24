@@ -502,7 +502,7 @@ export default function WC2026Simulator() {
     GROUP_KEYS.forEach(g => {
       const group = GROUPS[g];
       let teams = group.teams.map(t=>({...t}));
-      const unset=[], md3=[];
+      const md3=[];
       group.matches.forEach((match,mIdx) => {
         const {hg,ag} = scores[g][mIdx];
         md3.push({home:match.home,away:match.away,hg,ag});
@@ -512,17 +512,17 @@ export default function WC2026Simulator() {
         teams[ai]=applyResult(teams[ai],hg,ag,false);
       });
       const allResults=[...(PAST_RESULTS[g]||[]),...md3];
-      res[g]={sorted:sortGroup(teams,allResults),unset};
+      res[g]={sorted:sortGroup(teams,allResults)};
     });
     return res;
   }, [scores]);
 
   const thirdPlaceRace = useMemo(() => {
     return GROUP_KEYS.map(g => {
-      const {sorted,unset}=groupResults[g];
+      const {sorted}=groupResults[g];
       const t=sorted[2];
       return {group:g,team:t.name,abbr:t.abbr,
-        pts:t.pts,gd:t.gf-t.ga,gf:t.gf,simulated:unset.length===0};
+        pts:t.pts,gd:t.gf-t.ga,gf:t.gf};
     }).sort((a,b)=>{
       if (b.pts!==a.pts) return b.pts-a.pts;
       if (b.gd!==a.gd) return b.gd-a.gd;
@@ -530,6 +530,11 @@ export default function WC2026Simulator() {
       return a.group.localeCompare(b.group);
     });
   }, [groupResults]);
+
+  const qualifyingThirdGroups = useMemo(
+    () => new Set(thirdPlaceRace.slice(0,8).map(team => team.group)),
+    [thirdPlaceRace],
+  );
 
   const bracketMatches = useMemo(() => {
     const thirdAssignments = assignThirdPlaceSlots(thirdPlaceRace);
@@ -570,6 +575,7 @@ export default function WC2026Simulator() {
                   groupKey={groupKey}
                   group={GROUPS[groupKey]}
                   result={groupResults[groupKey]}
+                  qualifyingThirdGroups={qualifyingThirdGroups}
                   scores={scores[groupKey]}
                   setScore={(mIdx,hg,ag)=>setScore(groupKey,mIdx,hg,ag)}
                 />
@@ -588,8 +594,9 @@ export default function WC2026Simulator() {
   );
 }
 
-function GroupPanel({groupKey,group,result,scores,setScore}) {
+function GroupPanel({groupKey,group,result,qualifyingThirdGroups,scores,setScore}) {
   const {sorted}=result;
+  const thirdQualifies = qualifyingThirdGroups.has(groupKey);
   return (
     <div style={{background:"#0e1e38",border:"1px solid #1e3a5f",
       borderRadius:12,overflow:"hidden"}}>
@@ -620,8 +627,8 @@ function GroupPanel({groupKey,group,result,scores,setScore}) {
               {sorted.map((team,i)=>{
                 const gd=team.gf-team.ga;
                 const isQ=i<2,is3=i===2;
-                const rowBg=isQ?(i===0?"#0d2240":"#0c1e38"):is3?"#120f1a":"#080c18";
-                const qc=isQ?"#4a9eff":is3?"#f59e0b":"#3a4a5a";
+                const rowBg=isQ?(i===0?"#0d2240":"#0c1e38"):is3?(thirdQualifies?"#120f1a":"#1a0909"):"#080c18";
+                const qc=isQ?"#4a9eff":is3?(thirdQualifies?"#f59e0b":"#ef4444"):"#3a4a5a";
                 return (
                   <tr key={team.abbr} style={{background:rowBg,borderBottom:"1px solid #122040"}}>
                     <td style={{...td,borderLeft:`3px solid ${qc}`,color:qc,fontWeight:700}}>{i+1}</td>
@@ -641,7 +648,8 @@ function GroupPanel({groupKey,group,result,scores,setScore}) {
           </table>
           <div style={{padding:"5px 10px",display:"flex",gap:12,fontSize:10,color:"#5a7090"}}>
             <span><span style={{color:"#4a9eff"}}>■</span> Auto-qualify</span>
-            <span><span style={{color:"#f59e0b"}}>■</span> 3rd-place race</span>
+            <span><span style={{color:"#f59e0b"}}>■</span> Best 3rd</span>
+            <span><span style={{color:"#ef4444"}}>■</span> 3rd out</span>
           </div>
         </div>
         {/* Score inputs */}
@@ -710,7 +718,6 @@ function ThirdPlacePanel({thirds}) {
             <th style={{...th,textAlign:"left"}}>Team</th>
             <th style={{...th,textAlign:"left"}}>Grp</th>
             <th style={th}>Pts</th><th style={th}>GD</th><th style={th}>GF</th>
-            <th style={{...th,textAlign:"left"}}>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -722,7 +729,7 @@ function ThirdPlacePanel({thirds}) {
               <Fragment key={`${t.group}-${t.abbr}`}>
                 {i===cut&&(
                   <tr key="cut">
-                    <td colSpan={7} style={{background:"#1a0000",
+                    <td colSpan={6} style={{background:"#1a0000",
                       borderTop:"2px dashed #ef4444",borderBottom:"2px dashed #ef4444",
                       textAlign:"center",fontSize:10,color:"#ef4444",
                       fontWeight:700,letterSpacing:"0.15em",padding:4}}>
@@ -741,11 +748,6 @@ function ThirdPlacePanel({thirds}) {
                     {t.gd>0?"+":""}{t.gd}
                   </td>
                   <td style={td}>{t.gf}</td>
-                  <td style={{...td,textAlign:"left"}}>
-                    {t.simulated
-                      ?<span style={{color:"#4a9eff",fontSize:10}}>● simulated</span>
-                      :<span style={{color:"#f59e0b",fontSize:10}}>○ pending MD3</span>}
-                  </td>
                 </tr>
               </Fragment>
             );
