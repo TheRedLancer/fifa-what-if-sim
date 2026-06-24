@@ -448,33 +448,29 @@ function ScoreStepper({value,onChange,color}) {
 
 function MatchRow({match,score,onScore}) {
   const {hg,ag}=score;
-  const hgv=hg??0, agv=ag??0;
-  const isSet=hg!==null&&ag!==null;
-  const label=!isSet?null:hgv>agv?`${match.home} WIN`:agv>hgv?`${match.away} WIN`:"DRAW";
-  const color=!isSet?null:hgv>agv?"#4a9eff":agv>hgv?"#a78bfa":"#f59e0b";
+  const label=hg>ag?`${match.home} WIN`:ag>hg?`${match.away} WIN`:"DRAW";
+  const color=hg>ag?"#4a9eff":ag>hg?"#a78bfa":"#f59e0b";
   return (
     <div style={{background:"#091628",borderRadius:8,padding:"10px 12px",
       marginBottom:8,border:"1px solid #162d4f"}}>
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",
         gap:8,fontSize:10,color:"#4a6090",marginBottom:8}}>
         <span>{match.home} {match.prob.home}% · D {match.prob.draw}% · {match.away} {match.prob.away}%</span>
-        {isSet&&(
-          <span style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
-            <span style={{fontWeight:700,color,letterSpacing:"0.1em"}}>{label}</span>
-            <button aria-label={`Clear ${match.home} ${match.away} score`} onClick={()=>onScore(null,null)} style={{
-              width:16,height:16,borderRadius:4,border:"1px solid #3a5070",
-              color:"#7a90b0",background:"transparent",cursor:"pointer",
-              fontSize:11,lineHeight:1,padding:0}}>x</button>
-          </span>
-        )}
+        <span style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
+          <span style={{fontWeight:700,color,letterSpacing:"0.1em"}}>{label}</span>
+          <button aria-label={`Reset ${match.home} ${match.away} score to 0-0`} onClick={()=>onScore(0,0)} style={{
+            minWidth:28,height:16,borderRadius:4,border:"1px solid #3a5070",
+            color:"#7a90b0",background:"transparent",cursor:"pointer",
+            fontSize:10,lineHeight:1,padding:"0 4px"}}>0-0</button>
+        </span>
       </div>
       <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:10}}>
         <div className="match-team match-team--home">
           <TeamLabel abbr={match.home} align="right"/>
         </div>
-        <ScoreStepper value={hgv} onChange={v=>onScore(v,agv)} color="#4a9eff"/>
+        <ScoreStepper value={hg} onChange={v=>onScore(v,ag)} color="#4a9eff"/>
         <span style={{fontSize:16,fontWeight:300,color:"#3a5070"}}>–</span>
-        <ScoreStepper value={agv} onChange={v=>onScore(hgv,v)} color="#a78bfa"/>
+        <ScoreStepper value={ag} onChange={v=>onScore(hg,v)} color="#a78bfa"/>
         <div className="match-team match-team--away">
           <TeamLabel abbr={match.away}/>
         </div>
@@ -488,7 +484,7 @@ export default function WC2026Simulator() {
   const initScores = () => {
     const s = {};
     GROUP_KEYS.forEach(g => {
-      s[g] = GROUPS[g].matches.map(()=>({hg:null,ag:null}));
+      s[g] = GROUPS[g].matches.map(()=>({hg:0,ag:0}));
     });
     return s;
   };
@@ -510,7 +506,6 @@ export default function WC2026Simulator() {
       const unset=[], md3=[];
       group.matches.forEach((match,mIdx) => {
         const {hg,ag} = scores[g][mIdx];
-        if (hg===null||ag===null){unset.push(mIdx);return;}
         md3.push({home:match.home,away:match.away,hg,ag});
         const hi=teams.findIndex(t=>t.abbr===match.home);
         const ai=teams.findIndex(t=>t.abbr===match.away);
