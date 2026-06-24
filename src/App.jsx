@@ -317,17 +317,17 @@ function TeamLabel({abbr,name,align="left",variant="match"}) {
   const team = name ? {abbr,name} : teamByAbbr(abbr);
   return (
     <span className={`team-label team-label--${align} team-label--${variant}`}>
-      {variant==="table"
+      {variant==="match"
         ? (
           <>
-            <span className="team-label__name">{team.name}</span>
             <span className="team-label__abbr">{team.abbr}</span>
+            <span className="team-label__name">{team.name}</span>
           </>
         )
         : (
           <>
-            <span className="team-label__abbr">{team.abbr}</span>
             <span className="team-label__name">{team.name}</span>
+            <span className="team-label__abbr">{team.abbr}</span>
           </>
         )}
     </span>

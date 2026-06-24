@@ -48,6 +48,7 @@ select {
   flex-direction: column;
   gap: 2px;
   line-height: 1.05;
+  min-width: 0;
   vertical-align: middle;
 }
 
@@ -63,6 +64,8 @@ select {
 
 .team-label__abbr {
   color: #d0daf0;
+  display: block;
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
   font-size: 15px;
   font-weight: 900;
   letter-spacing: 0.06em;
@@ -79,18 +82,46 @@ select {
   white-space: nowrap;
 }
 
+.team-label--match {
+  width: 64px;
+}
+
+.team-label--match .team-label__abbr,
+.team-label--match .team-label__name {
+  width: 100%;
+}
+
 .team-label--table .team-label__name,
 .team-label--bracket .team-label__name {
   color: #d0daf0;
   font-size: 12px;
   font-weight: 700;
-  max-width: 160px;
+  max-width: none;
+}
+
+.team-label--table,
+.team-label--bracket {
+  align-items: center;
+  display: grid;
+  gap: 6px;
+  grid-template-columns: minmax(0, 1fr) 36px;
+  line-height: 1.1;
+  width: 100%;
 }
 
 .team-label--table .team-label__abbr,
 .team-label--bracket .team-label__abbr {
+  background: #091628;
+  border: 1px solid #1e3a5f;
+  border-radius: 4px;
   color: #5a7090;
   font-size: 9px;
+  justify-self: end;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  padding: 2px 0;
+  text-align: center;
+  width: 36px;
 }
 
 .match-team {
