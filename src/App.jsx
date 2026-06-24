@@ -455,17 +455,19 @@ export default function WC2026Simulator() {
         </p>
       </div>
 
-      <div style={{padding:"20px 16px 0",maxWidth:900,margin:"0 auto"}}>
-        {GROUP_KEYS.map(groupKey => (
-          <GroupPanel
-            key={groupKey}
-            groupKey={groupKey}
-            group={GROUPS[groupKey]}
-            result={groupResults[groupKey]}
-            scores={scores[groupKey]}
-            setScore={(mIdx,hg,ag)=>setScore(groupKey,mIdx,hg,ag)}
-          />
-        ))}
+      <div className="content-shell">
+        <div className="groups-grid">
+          {GROUP_KEYS.map(groupKey => (
+            <GroupPanel
+              key={groupKey}
+              groupKey={groupKey}
+              group={GROUPS[groupKey]}
+              result={groupResults[groupKey]}
+              scores={scores[groupKey]}
+              setScore={(mIdx,hg,ag)=>setScore(groupKey,mIdx,hg,ag)}
+            />
+          ))}
+        </div>
 
         {/* Third place race */}
         <ThirdPlacePanel thirds={thirdPlaceRace}/>
@@ -479,7 +481,7 @@ function GroupPanel({groupKey,group,result,scores,setScore}) {
   const allSet=unset.length===0;
   return (
     <div style={{background:"#0e1e38",border:"1px solid #1e3a5f",
-      borderRadius:12,marginBottom:20,overflow:"hidden"}}>
+      borderRadius:12,overflow:"hidden"}}>
       <div style={{background:"linear-gradient(90deg,#1a2f55 0%,#0e1e38 100%)",
         padding:"12px 18px",display:"flex",alignItems:"center",
         justifyContent:"space-between",borderBottom:"1px solid #1e3a5f"}}>
@@ -493,9 +495,9 @@ function GroupPanel({groupKey,group,result,scores,setScore}) {
           ?<span style={{fontSize:11,color:"#22c55e",fontWeight:600}}>✓ Simulated</span>
           :<span style={{fontSize:11,color:"#5a7090",fontStyle:"italic"}}>set scores to simulate</span>}
       </div>
-      <div style={{display:"flex",flexWrap:"wrap"}}>
+      <div>
         {/* Standings */}
-        <div style={{flex:"1 1 280px",minWidth:260}}>
+        <div>
           <table style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
             <thead>
               <tr style={{background:"#091628",color:"#5a7090"}}>
@@ -535,8 +537,7 @@ function GroupPanel({groupKey,group,result,scores,setScore}) {
           </div>
         </div>
         {/* Score inputs */}
-        <div style={{flex:"1 1 280px",minWidth:260,
-          borderLeft:"1px solid #1e3a5f",padding:"12px 14px"}}>
+        <div style={{borderTop:"1px solid #1e3a5f",padding:"12px 14px"}}>
           {group.matches.map((match,mIdx)=>(
             <MatchRow key={mIdx} match={match} score={scores[mIdx]}
               onScore={(hg,ag)=>setScore(mIdx,hg,ag)}/>
