@@ -136,8 +136,7 @@ select {
   margin-bottom: 20px;
 }
 
-.bracket-aside .r32-grid,
-.bracket-aside .qualified-thirds__grid {
+.bracket-aside .r32-grid {
   grid-template-columns: 1fr;
 }
 
@@ -185,49 +184,6 @@ select {
   font-style: italic;
 }
 
-.qualified-thirds {
-  background: #0e1e38;
-  border: 1px solid #1e3a5f;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.qualified-thirds__title {
-  background: #091628;
-  border-bottom: 1px solid #1e3a5f;
-  color: #f59e0b;
-  font-size: 13px;
-  font-weight: 900;
-  padding: 10px 14px;
-}
-
-.qualified-thirds__grid {
-  display: grid;
-  gap: 1px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.qualified-third {
-  align-items: center;
-  background: #0b172b;
-  display: grid;
-  gap: 8px;
-  grid-template-columns: 24px minmax(0, 1fr);
-  padding: 10px 12px;
-}
-
-.qualified-third__rank {
-  color: #22c55e;
-  font-size: 13px;
-  font-weight: 900;
-}
-
-.qualified-third__stats {
-  color: #5a7090;
-  font-size: 10px;
-  grid-column: 2;
-}
-
 @media (max-width: 1180px) {
   .groups-grid {
     grid-template-columns: 1fr;
@@ -239,8 +195,7 @@ select {
     grid-template-columns: 1fr;
   }
 
-  .bracket-aside .r32-grid,
-  .bracket-aside .qualified-thirds__grid {
+  .bracket-aside .r32-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -255,9 +210,7 @@ select {
   }
 
   .r32-grid,
-  .qualified-thirds__grid,
-  .bracket-aside .r32-grid,
-  .bracket-aside .qualified-thirds__grid {
+  .bracket-aside .r32-grid {
     grid-template-columns: 1fr;
   }
 }

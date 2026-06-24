@@ -580,7 +580,7 @@ export default function WC2026Simulator() {
             <ThirdPlacePanel thirds={thirdPlaceRace}/>
           </main>
           <aside className="bracket-aside">
-            <R32Bracket matches={bracketMatches} thirdPlaceRace={thirdPlaceRace}/>
+            <R32Bracket matches={bracketMatches}/>
           </aside>
         </div>
       </div>
@@ -656,8 +656,7 @@ function GroupPanel({groupKey,group,result,scores,setScore}) {
   );
 }
 
-function R32Bracket({matches,thirdPlaceRace}) {
-  const qualifiedThirds = thirdPlaceRace.slice(0,8);
+function R32Bracket({matches}) {
   return (
     <div>
       <div className="bracket-header">
@@ -677,19 +676,6 @@ function R32Bracket({matches,thirdPlaceRace}) {
             ))}
           </div>
         ))}
-      </div>
-
-      <div className="qualified-thirds">
-        <div className="qualified-thirds__title">Best third-place qualifiers</div>
-        <div className="qualified-thirds__grid">
-          {qualifiedThirds.map((team,index) => (
-            <div className="qualified-third" key={`${team.group}-${team.abbr}`}>
-              <span className="qualified-third__rank">{index+1}</span>
-              <TeamLabel abbr={team.abbr} name={team.team} variant="table"/>
-              <span className="qualified-third__stats">{team.pts} pts · {team.gd>0?"+":""}{team.gd} GD · G{team.group}</span>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );
