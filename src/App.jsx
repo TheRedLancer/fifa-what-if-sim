@@ -459,9 +459,9 @@ function MatchRow({match,score,onScore}) {
         <span style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
           <span style={{fontWeight:700,color,letterSpacing:"0.1em"}}>{label}</span>
           <button aria-label={`Reset ${match.home} ${match.away} score to 0-0`} onClick={()=>onScore(0,0)} style={{
-            minWidth:28,height:16,borderRadius:4,border:"1px solid #3a5070",
+            minWidth:58,height:16,borderRadius:4,border:"1px solid #3a5070",
             color:"#7a90b0",background:"transparent",cursor:"pointer",
-            fontSize:10,lineHeight:1,padding:"0 4px"}}>0-0</button>
+            fontSize:10,lineHeight:1,padding:"0 5px"}}>Reset 0-0</button>
         </span>
       </div>
       <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:10}}>
