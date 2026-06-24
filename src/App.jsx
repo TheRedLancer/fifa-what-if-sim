@@ -489,7 +489,6 @@ export default function WC2026Simulator() {
     return s;
   };
   const [scores, setScores] = useState(initScores);
-  const [activeView, setActiveView] = useState("groups");
 
   const setScore = (group,mIdx,hg,ag) => {
     setScores(prev => ({
@@ -559,21 +558,11 @@ export default function WC2026Simulator() {
         <p style={{margin:"4px 0 0",fontSize:12,color:"#7a90b0"}}>
           All 12 groups · Full H2H tiebreakers · {totalSet}/{totalMatches} matches set
         </p>
-        <div className="view-tabs">
-          <button className={`view-tab ${activeView==="groups"?"view-tab--active":""}`}
-            onClick={()=>setActiveView("groups")}>
-            Groups
-          </button>
-          <button className={`view-tab ${activeView==="bracket"?"view-tab--active":""}`}
-            onClick={()=>setActiveView("bracket")}>
-            Final R32 Bracket
-          </button>
-        </div>
       </div>
 
       <div className="content-shell">
-        {activeView==="groups" ? (
-          <>
+        <div className="page-layout">
+          <main className="groups-column">
             <div className="groups-grid">
               {GROUP_KEYS.map(groupKey => (
                 <GroupPanel
@@ -589,10 +578,11 @@ export default function WC2026Simulator() {
 
             {/* Third place race */}
             <ThirdPlacePanel thirds={thirdPlaceRace}/>
-          </>
-        ) : (
-          <R32Bracket matches={bracketMatches} thirdPlaceRace={thirdPlaceRace}/>
-        )}
+          </main>
+          <aside className="bracket-aside">
+            <R32Bracket matches={bracketMatches} thirdPlaceRace={thirdPlaceRace}/>
+          </aside>
+        </div>
       </div>
     </div>
   );
@@ -673,7 +663,7 @@ function R32Bracket({matches,thirdPlaceRace}) {
       <div className="bracket-header">
         <div>
           <h2>Final Round of 32 Bracket</h2>
-          <p>Built from the current what-if standings. Third-place teams use the top 8 ranking and eligible FIFA R32 slot groups.</p>
+          <p>Built from the current what-if standings.</p>
         </div>
         <div className="bracket-meta">16 matches · 32 teams</div>
       </div>
