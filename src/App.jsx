@@ -497,17 +497,17 @@ function resolveBracketSide(side,groupResults,thirdAssignments,allGroupsComplete
 function ScoreStepper({value,onChange,color}) {
   const displayValue = value ?? "–";
   const btn = (lbl,fn,disabled=false) => (
-    <button disabled={disabled} onClick={fn} style={{
-      width:32,height:32,borderRadius:6,border:`1px solid ${color}44`,
-      background:disabled?"#0b1324":color+"18",color:disabled?"#3a5070":color,
-      cursor:disabled?"default":"pointer",fontSize:19,fontWeight:700,
-      lineHeight:1,display:"flex",alignItems:"center",justifyContent:"center",
+    <button className="score-btn" disabled={disabled} onClick={fn} style={{
+      border:`1px solid ${color}44`,
+      background:disabled?"#0b1324":color+"18",
+      color:disabled?"#3a5070":color,
+      cursor:disabled?"default":"pointer",
     }}>{lbl}</button>
   );
   return (
-    <div style={{display:"flex",alignItems:"center",gap:7}}>
+    <div className="score-stepper">
       {btn("−",()=>onChange(Math.max(0,value-1)),value===null||value===0)}
-      <span style={{fontSize:26,fontWeight:800,color:"#fff",minWidth:30,textAlign:"center"}}>{displayValue}</span>
+      <span className="score-value" style={{color:"#fff"}}>{displayValue}</span>
       {btn("+",()=>onChange(value===null?1:value+1))}
     </div>
   );
@@ -515,8 +515,8 @@ function ScoreStepper({value,onChange,color}) {
 
 function LockedScore({value}) {
   return (
-    <div style={{display:"flex",alignItems:"center",justifyContent:"center",width:101}}>
-      <span style={{fontSize:26,fontWeight:900,color:"#f8e2b3",minWidth:30,textAlign:"center"}}>{value}</span>
+    <div className="locked-score">
+      <span className="locked-score__value" style={{color:"#f8e2b3"}}>{value}</span>
     </div>
   );
 }
@@ -531,9 +531,8 @@ function MatchRow({match,score,onScore}) {
   return (
     <div style={{background:"#091628",borderRadius:8,padding:"10px 12px",
       marginBottom:8,border:"1px solid #162d4f"}}>
-      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",
-        gap:8,fontSize:10,color:"#4a6090",marginBottom:8}}>
-        <span style={{color:"#5a7090",maxWidth:"100%",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
+      <div style={{fontSize:10,color:"#4a6090",marginBottom:8}}>
+        <span style={{color:"#5a7090"}}>
           {formatVenue(match)}
         </span>
       </div>
@@ -551,7 +550,7 @@ function MatchRow({match,score,onScore}) {
             fontSize:10,lineHeight:1,padding:"0 5px"}}>Clear</button>}
         </span>
       </div>
-      <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:10}}>
+      <div className="match-score-row">
         <div className="match-team match-team--home">
           <TeamLabel abbr={match.home} align="right"/>
         </div>
@@ -739,7 +738,7 @@ function GroupPanel({groupKey,group,result,qualifyingThirdGroups,scores,setScore
                 <th style={th}>#</th>
                 <th style={{...th,textAlign:"left"}}>Team</th>
                 <th style={th}>Pts</th>
-                <th style={th}>W</th><th style={th}>D</th><th style={th}>L</th>
+                <th className="col-wdl" style={th}>W</th><th className="col-wdl" style={th}>D</th><th className="col-wdl" style={th}>L</th>
                 <th style={th}>GF</th><th style={th}>GA</th><th style={th}>GD</th>
               </tr>
             </thead>
@@ -756,7 +755,7 @@ function GroupPanel({groupKey,group,result,qualifyingThirdGroups,scores,setScore
                       <TeamLabel abbr={team.abbr} name={team.name} variant="table"/>
                     </td>
                     <td style={{...td,fontWeight:800,color:"#fff",fontSize:13}}>{team.pts}</td>
-                    <td style={td}>{team.w}</td><td style={td}>{team.d}</td><td style={td}>{team.l}</td>
+                    <td className="col-wdl" style={td}>{team.w}</td><td className="col-wdl" style={td}>{team.d}</td><td className="col-wdl" style={td}>{team.l}</td>
                     <td style={td}>{team.gf}</td><td style={td}>{team.ga}</td>
                     <td style={{...td,color:gd>0?"#22c55e":gd<0?"#ef4444":"#8aa4c4"}}>
                       {gd>0?"+":""}{gd}
@@ -825,7 +824,7 @@ function ThirdPlacePanel({thirds}) {
   return (
     <div style={{background:"#0e1e38",border:"1px solid #1e3a5f",
       borderRadius:12,overflow:"hidden",marginBottom:20}}>
-      <div style={{background:"linear-gradient(90deg,#2a1f00 0%,#0e1e38 100%)",
+      <div className="third-panel-header" style={{background:"linear-gradient(90deg,#2a1f00 0%,#0e1e38 100%)",
         padding:"12px 18px",borderBottom:"1px solid #1e3a5f",
         display:"flex",justifyContent:"space-between",alignItems:"center"}}>
         <span style={{fontWeight:800,fontSize:15,color:"#f59e0b"}}>🥉 Best Third-Place Race</span>
