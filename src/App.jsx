@@ -599,8 +599,7 @@ export default function WC2026Simulator() {
 }
 
 function GroupPanel({groupKey,group,result,scores,setScore}) {
-  const {sorted,unset}=result;
-  const allSet=unset.length===0;
+  const {sorted}=result;
   return (
     <div style={{background:"#0e1e38",border:"1px solid #1e3a5f",
       borderRadius:12,overflow:"hidden"}}>
@@ -613,9 +612,6 @@ function GroupPanel({groupKey,group,result,scores,setScore}) {
           </span>
           <span style={{marginLeft:10,fontSize:11,color:"#4a7090"}}>{group.label}</span>
         </div>
-        {allSet
-          ?<span style={{fontSize:11,color:"#22c55e",fontWeight:600}}>✓ Simulated</span>
-          :<span style={{fontSize:11,color:"#5a7090",fontStyle:"italic"}}>set scores to simulate</span>}
       </div>
       <div>
         {/* Standings */}
