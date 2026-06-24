@@ -332,15 +332,15 @@ function applyResult(team,hg,ag,isHome) {
 function ScoreStepper({value,onChange,color}) {
   const btn = (lbl,fn) => (
     <button onClick={fn} style={{
-      width:26,height:26,borderRadius:5,border:`1px solid ${color}44`,
-      background:color+"18",color,cursor:"pointer",fontSize:16,fontWeight:700,
+      width:32,height:32,borderRadius:6,border:`1px solid ${color}44`,
+      background:color+"18",color,cursor:"pointer",fontSize:19,fontWeight:700,
       lineHeight:1,display:"flex",alignItems:"center",justifyContent:"center",
     }}>{lbl}</button>
   );
   return (
-    <div style={{display:"flex",alignItems:"center",gap:6}}>
+    <div style={{display:"flex",alignItems:"center",gap:7}}>
       {btn("−",()=>onChange(Math.max(0,value-1)))}
-      <span style={{fontSize:22,fontWeight:800,color:"#fff",minWidth:24,textAlign:"center"}}>{value}</span>
+      <span style={{fontSize:26,fontWeight:800,color:"#fff",minWidth:30,textAlign:"center"}}>{value}</span>
       {btn("+",()=>onChange(value+1))}
     </div>
   );
@@ -355,8 +355,18 @@ function MatchRow({match,score,onScore}) {
   return (
     <div style={{background:"#091628",borderRadius:8,padding:"10px 12px",
       marginBottom:8,border:"1px solid #162d4f"}}>
-      <div style={{fontSize:10,color:"#4a6090",marginBottom:8}}>
-        {match.home} {match.prob.home}% · D {match.prob.draw}% · {match.away} {match.prob.away}%
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",
+        gap:8,fontSize:10,color:"#4a6090",marginBottom:8}}>
+        <span>{match.home} {match.prob.home}% · D {match.prob.draw}% · {match.away} {match.prob.away}%</span>
+        {isSet&&(
+          <span style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
+            <span style={{fontWeight:700,color,letterSpacing:"0.1em"}}>{label}</span>
+            <button aria-label={`Clear ${match.home} ${match.away} score`} onClick={()=>onScore(null,null)} style={{
+              width:16,height:16,borderRadius:4,border:"1px solid #3a5070",
+              color:"#7a90b0",background:"transparent",cursor:"pointer",
+              fontSize:11,lineHeight:1,padding:0}}>x</button>
+          </span>
+        )}
       </div>
       <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:10}}>
         <span style={{fontSize:12,fontWeight:700,color:"#d0daf0",minWidth:34,textAlign:"right"}}>
@@ -368,14 +378,6 @@ function MatchRow({match,score,onScore}) {
         <span style={{fontSize:12,fontWeight:700,color:"#d0daf0",minWidth:34,textAlign:"left"}}>
           {match.away} {FLAG[match.away]||"🏳"}
         </span>
-      </div>
-      <div style={{textAlign:"center",marginTop:6,minHeight:14}}>
-        {isSet&&<span style={{fontSize:10,fontWeight:700,color,letterSpacing:"0.1em"}}>{label}</span>}
-      </div>
-      <div style={{textAlign:"center",marginTop:2}}>
-        <button onClick={()=>onScore(null,null)} style={{
-          fontSize:10,color:"#3a5070",background:"none",border:"none",
-          cursor:"pointer",textDecoration:"underline",padding:0}}>clear</button>
       </div>
     </div>
   );
