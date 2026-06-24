@@ -273,26 +273,66 @@ Object.entries(tournamentData.groups).forEach(([key, group]) => {
   };
 });
 
-const FLAG = {
-  MEX:"🇲🇽",KOR:"🇰🇷",CZE:"🇨🇿",RSA:"🇿🇦",
-  CAN:"🇨🇦",SUI:"🇨🇭",BIH:"🇧🇦",QAT:"🇶🇦",
-  BRA:"🇧🇷",MAR:"🇲🇦",SCO:"",HTI:"🇭🇹",
-  USA:"🇺🇸",AUS:"🇦🇺",PAR:"🇵🇾",TUR:"🇹🇷",
-  GER:"🇩🇪",CIV:"🇨🇮",ECU:"🇪🇨",CUW:"🇨🇼",
-  NED:"🇳🇱",JPN:"🇯🇵",SWE:"🇸🇪",TUN:"🇹🇳",
-  EGY:"🇪🇬",IRN:"🇮🇷",BEL:"🇧🇪",NZL:"🇳🇿",
-  ESP:"🇪🇸",URU:"🇺🇾",CPV:"🇨🇻",KSA:"🇸🇦",
-  FRA:"🇫🇷",NOR:"🇳🇴",SEN:"🇸🇳",IRQ:"🇮🇶",
-  ARG:"🇦🇷",AUT:"🇦🇹",DZA:"🇩🇿",JOR:"🇯🇴",
-  COL:"🇨🇴",POR:"🇵🇹",COD:"🇨🇩",UZB:"🇺🇿",
-  ENG:"",GHA:"🇬🇭",CRO:"🇭🇷",PAN:"🇵🇦",
-};
+const GROUP_KEYS = Object.keys(tournamentData.groups);
+const TEAM_BY_ABBR = Object.fromEntries(
+  Object.values(GROUPS).flatMap(group => group.teams.map(team => [team.abbr, team])),
+);
 
-function flagFor(abbr) {
-  return FLAG[abbr] ? `${FLAG[abbr]} ` : "";
+function teamByAbbr(abbr) {
+  return TEAM_BY_ABBR[abbr] || {abbr, name:abbr};
 }
 
-const GROUP_KEYS = Object.keys(tournamentData.groups);
+function position(group, place) {
+  return {type:"position",group,place};
+}
+
+function third(id, groups) {
+  return {type:"third",id,groups};
+}
+
+const R32_MATCHES = [
+  {number:73, sides:[position("A",2), position("B",2)]},
+  {number:74, sides:[position("E",1), third("m74", ["A","B","C","D","F"])]},
+  {number:75, sides:[position("F",1), position("C",2)]},
+  {number:76, sides:[position("C",1), position("F",2)]},
+  {number:77, sides:[position("I",1), third("m77", ["C","D","F","G","H"])]},
+  {number:78, sides:[position("E",2), position("I",2)]},
+  {number:79, sides:[position("A",1), third("m79", ["C","E","F","H","I"])]},
+  {number:80, sides:[position("L",1), third("m80", ["E","H","I","J","K"])]},
+  {number:81, sides:[position("D",1), third("m81", ["B","E","F","I","J"])]},
+  {number:82, sides:[position("G",1), third("m82", ["A","E","H","I","J"])]},
+  {number:83, sides:[position("K",2), position("L",2)]},
+  {number:84, sides:[position("H",1), position("J",2)]},
+  {number:85, sides:[position("B",1), third("m85", ["E","F","G","I","J"])]},
+  {number:86, sides:[position("J",1), position("H",2)]},
+  {number:87, sides:[position("K",1), third("m87", ["D","E","I","J","L"])]},
+  {number:88, sides:[position("D",2), position("G",2)]},
+];
+
+const THIRD_SLOTS = R32_MATCHES.flatMap(match =>
+  match.sides.filter(side => side.type==="third").map(side => ({...side,matchNumber:match.number})),
+);
+
+function TeamLabel({abbr,name,align="left",variant="match"}) {
+  const team = name ? {abbr,name} : teamByAbbr(abbr);
+  return (
+    <span className={`team-label team-label--${align} team-label--${variant}`}>
+      {variant==="table"
+        ? (
+          <>
+            <span className="team-label__name">{team.name}</span>
+            <span className="team-label__abbr">{team.abbr}</span>
+          </>
+        )
+        : (
+          <>
+            <span className="team-label__abbr">{team.abbr}</span>
+            <span className="team-label__name">{team.name}</span>
+          </>
+        )}
+    </span>
+  );
+}
 
 // ─── TIEBREAKER LOGIC ────────────────────────────────────────────────────────
 function buildH2H(abbrs, allResults) {
@@ -330,6 +370,62 @@ function applyResult(team,hg,ag,isHome) {
   const w=gf>ga?1:0, d=gf===ga?1:0, l=gf<ga?1:0;
   return {...team,w:team.w+w,d:team.d+d,l:team.l+l,
     gf:team.gf+gf,ga:team.ga+ga,pts:team.pts+(w?3:d?1:0)};
+}
+
+function assignThirdPlaceSlots(thirdPlaceRace) {
+  const qualifiedThirds = thirdPlaceRace.slice(0,8);
+  const rankByGroup = Object.fromEntries(qualifiedThirds.map((team,index) => [team.group,index]));
+  const qualifiedByGroup = Object.fromEntries(qualifiedThirds.map(team => [team.group,team]));
+  const slots = THIRD_SLOTS.map(slot => ({
+    ...slot,
+    options: slot.groups
+      .map(group => qualifiedByGroup[group])
+      .filter(Boolean)
+      .sort((a,b) => rankByGroup[a.group]-rankByGroup[b.group]),
+  })).sort((a,b) => a.options.length-b.options.length || a.matchNumber-b.matchNumber);
+  const assignments = {};
+  const usedGroups = new Set();
+
+  function search(index) {
+    if (index===slots.length) return true;
+    const slot = slots[index];
+    for (const option of slot.options) {
+      if (usedGroups.has(option.group)) continue;
+      usedGroups.add(option.group);
+      assignments[slot.id] = option;
+      if (search(index+1)) return true;
+      usedGroups.delete(option.group);
+      delete assignments[slot.id];
+    }
+    return false;
+  }
+
+  search(0);
+  return assignments;
+}
+
+function resolveBracketSide(side,groupResults,thirdAssignments) {
+  if (side.type==="position") {
+    const team = groupResults[side.group].sorted[side.place-1];
+    return {
+      team,
+      label:`${side.place}${side.group}`,
+      detail: side.place===1 ? `Winner Group ${side.group}` : `Runner-up Group ${side.group}`,
+    };
+  }
+  const thirdTeam = thirdAssignments[side.id];
+  if (!thirdTeam) {
+    return {
+      team:null,
+      label:`3${side.groups.join("/")}`,
+      detail:`Best 3rd from ${side.groups.join(", ")}`,
+    };
+  }
+  return {
+    team:{abbr:thirdTeam.abbr,name:thirdTeam.team},
+    label:`3${thirdTeam.group}`,
+    detail:`Best 3rd Group ${thirdTeam.group}`,
+  };
 }
 
 // ─── SCORE STEPPER ───────────────────────────────────────────────────────────
@@ -373,15 +469,15 @@ function MatchRow({match,score,onScore}) {
         )}
       </div>
       <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:10}}>
-        <span style={{fontSize:14,fontWeight:800,color:"#d0daf0",minWidth:46,textAlign:"right"}}>
-          {flagFor(match.home)}{match.home}
-        </span>
+        <div className="match-team match-team--home">
+          <TeamLabel abbr={match.home} align="right"/>
+        </div>
         <ScoreStepper value={hgv} onChange={v=>onScore(v,agv)} color="#4a9eff"/>
         <span style={{fontSize:16,fontWeight:300,color:"#3a5070"}}>–</span>
         <ScoreStepper value={agv} onChange={v=>onScore(hgv,v)} color="#a78bfa"/>
-        <span style={{fontSize:14,fontWeight:800,color:"#d0daf0",minWidth:46,textAlign:"left"}}>
-          {match.away} {flagFor(match.away)}
-        </span>
+        <div className="match-team match-team--away">
+          <TeamLabel abbr={match.away}/>
+        </div>
       </div>
     </div>
   );
@@ -397,6 +493,7 @@ export default function WC2026Simulator() {
     return s;
   };
   const [scores, setScores] = useState(initScores);
+  const [activeView, setActiveView] = useState("groups");
 
   const setScore = (group,mIdx,hg,ag) => {
     setScores(prev => ({
@@ -440,6 +537,14 @@ export default function WC2026Simulator() {
     });
   }, [groupResults]);
 
+  const bracketMatches = useMemo(() => {
+    const thirdAssignments = assignThirdPlaceSlots(thirdPlaceRace);
+    return R32_MATCHES.map(match => ({
+      number:match.number,
+      sides:match.sides.map(side => resolveBracketSide(side,groupResults,thirdAssignments)),
+    }));
+  }, [groupResults,thirdPlaceRace]);
+
   const totalSet = GROUP_KEYS.reduce((n,g)=>
     n+scores[g].filter(s=>s.hg!==null&&s.ag!==null).length,0);
   const totalMatches = GROUP_KEYS.reduce((n,g)=>n+GROUPS[g].matches.length,0);
@@ -459,24 +564,40 @@ export default function WC2026Simulator() {
         <p style={{margin:"4px 0 0",fontSize:12,color:"#7a90b0"}}>
           All 12 groups · Full H2H tiebreakers · {totalSet}/{totalMatches} matches set
         </p>
+        <div className="view-tabs">
+          <button className={`view-tab ${activeView==="groups"?"view-tab--active":""}`}
+            onClick={()=>setActiveView("groups")}>
+            Groups
+          </button>
+          <button className={`view-tab ${activeView==="bracket"?"view-tab--active":""}`}
+            onClick={()=>setActiveView("bracket")}>
+            Final R32 Bracket
+          </button>
+        </div>
       </div>
 
       <div className="content-shell">
-        <div className="groups-grid">
-          {GROUP_KEYS.map(groupKey => (
-            <GroupPanel
-              key={groupKey}
-              groupKey={groupKey}
-              group={GROUPS[groupKey]}
-              result={groupResults[groupKey]}
-              scores={scores[groupKey]}
-              setScore={(mIdx,hg,ag)=>setScore(groupKey,mIdx,hg,ag)}
-            />
-          ))}
-        </div>
+        {activeView==="groups" ? (
+          <>
+            <div className="groups-grid">
+              {GROUP_KEYS.map(groupKey => (
+                <GroupPanel
+                  key={groupKey}
+                  groupKey={groupKey}
+                  group={GROUPS[groupKey]}
+                  result={groupResults[groupKey]}
+                  scores={scores[groupKey]}
+                  setScore={(mIdx,hg,ag)=>setScore(groupKey,mIdx,hg,ag)}
+                />
+              ))}
+            </div>
 
-        {/* Third place race */}
-        <ThirdPlacePanel thirds={thirdPlaceRace}/>
+            {/* Third place race */}
+            <ThirdPlacePanel thirds={thirdPlaceRace}/>
+          </>
+        ) : (
+          <R32Bracket matches={bracketMatches} thirdPlaceRace={thirdPlaceRace}/>
+        )}
       </div>
     </div>
   );
@@ -524,7 +645,7 @@ function GroupPanel({groupKey,group,result,scores,setScore}) {
                   <tr key={team.abbr} style={{background:rowBg,borderBottom:"1px solid #122040"}}>
                     <td style={{...td,borderLeft:`3px solid ${qc}`,color:qc,fontWeight:700}}>{i+1}</td>
                     <td style={{...td,textAlign:"left",fontWeight:600,color:"#d0daf0"}}>
-                      {flagFor(team.abbr)}{team.name}
+                      <TeamLabel abbr={team.abbr} name={team.name} variant="table"/>
                     </td>
                     <td style={{...td,fontWeight:800,color:"#fff",fontSize:13}}>{team.pts}</td>
                     <td style={td}>{team.w}</td><td style={td}>{team.d}</td><td style={td}>{team.l}</td>
@@ -550,6 +671,56 @@ function GroupPanel({groupKey,group,result,scores,setScore}) {
           ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+function R32Bracket({matches,thirdPlaceRace}) {
+  const qualifiedThirds = thirdPlaceRace.slice(0,8);
+  return (
+    <div>
+      <div className="bracket-header">
+        <div>
+          <h2>Final Round of 32 Bracket</h2>
+          <p>Built from the current what-if standings. Third-place teams use the top 8 ranking and eligible FIFA R32 slot groups.</p>
+        </div>
+        <div className="bracket-meta">16 matches · 32 teams</div>
+      </div>
+
+      <div className="r32-grid">
+        {matches.map(match => (
+          <div className="r32-match" key={match.number}>
+            <div className="r32-match__header">Match {match.number}</div>
+            {match.sides.map((side,index) => (
+              <BracketSide key={`${match.number}-${index}`} side={side}/>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <div className="qualified-thirds">
+        <div className="qualified-thirds__title">Best third-place qualifiers</div>
+        <div className="qualified-thirds__grid">
+          {qualifiedThirds.map((team,index) => (
+            <div className="qualified-third" key={`${team.group}-${team.abbr}`}>
+              <span className="qualified-third__rank">{index+1}</span>
+              <TeamLabel abbr={team.abbr} name={team.team} variant="table"/>
+              <span className="qualified-third__stats">{team.pts} pts · {team.gd>0?"+":""}{team.gd} GD · G{team.group}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BracketSide({side}) {
+  return (
+    <div className={`bracket-side ${side.team ? "" : "bracket-side--empty"}`}>
+      <span className="bracket-side__seed">{side.label}</span>
+      {side.team
+        ? <TeamLabel abbr={side.team.abbr} name={side.team.name} variant="bracket"/>
+        : <span className="bracket-side__placeholder">{side.detail}</span>}
     </div>
   );
 }
@@ -595,7 +766,7 @@ function ThirdPlacePanel({thirds}) {
                 <tr key={t.group+t.abbr} style={{background:rowBg,borderBottom:"1px solid #122040"}}>
                   <td style={{...td,color:rc,fontWeight:700}}>{i+1}</td>
                   <td style={{...td,textAlign:"left",color:"#d0daf0",fontWeight:600}}>
-                    {flagFor(t.abbr)}{t.team}
+                    <TeamLabel abbr={t.abbr} name={t.team} variant="table"/>
                   </td>
                   <td style={{...td,textAlign:"left",color:"#5a7090"}}>G{t.group}</td>
                   <td style={{...td,fontWeight:800,color:"#fff",fontSize:13}}>{t.pts}</td>
