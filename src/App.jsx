@@ -276,7 +276,7 @@ Object.entries(tournamentData.groups).forEach(([key, group]) => {
 const FLAG = {
   MEX:"🇲🇽",KOR:"🇰🇷",CZE:"🇨🇿",RSA:"🇿🇦",
   CAN:"🇨🇦",SUI:"🇨🇭",BIH:"🇧🇦",QAT:"🇶🇦",
-  BRA:"🇧🇷",MAR:"🇲🇦",SCO:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",HTI:"🇭🇹",
+  BRA:"🇧🇷",MAR:"🇲🇦",SCO:"",HTI:"🇭🇹",
   USA:"🇺🇸",AUS:"🇦🇺",PAR:"🇵🇾",TUR:"🇹🇷",
   GER:"🇩🇪",CIV:"🇨🇮",ECU:"🇪🇨",CUW:"🇨🇼",
   NED:"🇳🇱",JPN:"🇯🇵",SWE:"🇸🇪",TUN:"🇹🇳",
@@ -285,8 +285,12 @@ const FLAG = {
   FRA:"🇫🇷",NOR:"🇳🇴",SEN:"🇸🇳",IRQ:"🇮🇶",
   ARG:"🇦🇷",AUT:"🇦🇹",DZA:"🇩🇿",JOR:"🇯🇴",
   COL:"🇨🇴",POR:"🇵🇹",COD:"🇨🇩",UZB:"🇺🇿",
-  ENG:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",GHA:"🇬🇭",CRO:"🇭🇷",PAN:"🇵🇦",
+  ENG:"",GHA:"🇬🇭",CRO:"🇭🇷",PAN:"🇵🇦",
 };
+
+function flagFor(abbr) {
+  return FLAG[abbr] ? `${FLAG[abbr]} ` : "";
+}
 
 const GROUP_KEYS = Object.keys(tournamentData.groups);
 
@@ -369,14 +373,14 @@ function MatchRow({match,score,onScore}) {
         )}
       </div>
       <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:10}}>
-        <span style={{fontSize:12,fontWeight:700,color:"#d0daf0",minWidth:34,textAlign:"right"}}>
-          {FLAG[match.home]||"🏳"} {match.home}
+        <span style={{fontSize:14,fontWeight:800,color:"#d0daf0",minWidth:46,textAlign:"right"}}>
+          {flagFor(match.home)}{match.home}
         </span>
         <ScoreStepper value={hgv} onChange={v=>onScore(v,agv)} color="#4a9eff"/>
         <span style={{fontSize:16,fontWeight:300,color:"#3a5070"}}>–</span>
         <ScoreStepper value={agv} onChange={v=>onScore(hgv,v)} color="#a78bfa"/>
-        <span style={{fontSize:12,fontWeight:700,color:"#d0daf0",minWidth:34,textAlign:"left"}}>
-          {match.away} {FLAG[match.away]||"🏳"}
+        <span style={{fontSize:14,fontWeight:800,color:"#d0daf0",minWidth:46,textAlign:"left"}}>
+          {match.away} {flagFor(match.away)}
         </span>
       </div>
     </div>
@@ -520,7 +524,7 @@ function GroupPanel({groupKey,group,result,scores,setScore}) {
                   <tr key={team.abbr} style={{background:rowBg,borderBottom:"1px solid #122040"}}>
                     <td style={{...td,borderLeft:`3px solid ${qc}`,color:qc,fontWeight:700}}>{i+1}</td>
                     <td style={{...td,textAlign:"left",fontWeight:600,color:"#d0daf0"}}>
-                      {FLAG[team.abbr]||"🏳"} {team.name}
+                      {flagFor(team.abbr)}{team.name}
                     </td>
                     <td style={{...td,fontWeight:800,color:"#fff",fontSize:13}}>{team.pts}</td>
                     <td style={td}>{team.w}</td><td style={td}>{team.d}</td><td style={td}>{team.l}</td>
@@ -591,7 +595,7 @@ function ThirdPlacePanel({thirds}) {
                 <tr key={t.group+t.abbr} style={{background:rowBg,borderBottom:"1px solid #122040"}}>
                   <td style={{...td,color:rc,fontWeight:700}}>{i+1}</td>
                   <td style={{...td,textAlign:"left",color:"#d0daf0",fontWeight:600}}>
-                    {FLAG[t.abbr]||"🏳"} {t.team}
+                    {flagFor(t.abbr)}{t.team}
                   </td>
                   <td style={{...td,textAlign:"left",color:"#5a7090"}}>G{t.group}</td>
                   <td style={{...td,fontWeight:800,color:"#fff",fontSize:13}}>{t.pts}</td>
