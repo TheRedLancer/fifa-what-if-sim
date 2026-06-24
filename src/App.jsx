@@ -1,5 +1,6 @@
 import { Fragment, useDeferredValue, useMemo, useState } from "react";
 import tournamentData from "./data/wc2026-data.json";
+import annexCThirdPlace from "./data/wc2026-annexC-third-place.json";
 
 // Fallback data from the original paste; wc2026-data.json is the source used by the app.
 const PAST_RESULTS = {
@@ -307,32 +308,29 @@ function position(group, place) {
   return {type:"position",group,place};
 }
 
-function third(id, groups) {
-  return {type:"third",id,groups};
+function third(winnerSlot, groups) {
+  return {type:"third",winnerSlot,groups};
 }
 
 const R32_MATCHES = [
   {number:73, sides:[position("A",2), position("B",2)]},
-  {number:74, sides:[position("E",1), third("m74", ["A","B","C","D","F"])]},
+  {number:74, sides:[position("E",1), third("1E", ["A","B","C","D","F"])]},
   {number:75, sides:[position("F",1), position("C",2)]},
   {number:76, sides:[position("C",1), position("F",2)]},
-  {number:77, sides:[position("I",1), third("m77", ["C","D","F","G","H"])]},
+  {number:77, sides:[position("I",1), third("1I", ["C","D","F","G","H"])]},
   {number:78, sides:[position("E",2), position("I",2)]},
-  {number:79, sides:[position("A",1), third("m79", ["C","E","F","H","I"])]},
-  {number:80, sides:[position("L",1), third("m80", ["E","H","I","J","K"])]},
-  {number:81, sides:[position("D",1), third("m81", ["B","E","F","I","J"])]},
-  {number:82, sides:[position("G",1), third("m82", ["A","E","H","I","J"])]},
+  {number:79, sides:[position("A",1), third("1A", ["C","E","F","H","I"])]},
+  {number:80, sides:[position("L",1), third("1L", ["E","H","I","J","K"])]},
+  {number:81, sides:[position("D",1), third("1D", ["B","E","F","I","J"])]},
+  {number:82, sides:[position("G",1), third("1G", ["A","E","H","I","J"])]},
   {number:83, sides:[position("K",2), position("L",2)]},
   {number:84, sides:[position("H",1), position("J",2)]},
-  {number:85, sides:[position("B",1), third("m85", ["E","F","G","I","J"])]},
+  {number:85, sides:[position("B",1), third("1B", ["E","F","G","I","J"])]},
   {number:86, sides:[position("J",1), position("H",2)]},
-  {number:87, sides:[position("K",1), third("m87", ["D","E","I","J","L"])]},
+  {number:87, sides:[position("K",1), third("1K", ["D","E","I","J","L"])]},
   {number:88, sides:[position("D",2), position("G",2)]},
 ];
 
-const THIRD_SLOTS = R32_MATCHES.flatMap(match =>
-  match.sides.filter(side => side.type==="third").map(side => ({...side,matchNumber:match.number})),
-);
 const LOCK_SIM_MAX_SCORE = 12;
 const LOCK_SIM_SCORES = Array.from({length:LOCK_SIM_MAX_SCORE+1},(_,i)=>i);
 const seedLockCache = new Map();
@@ -454,34 +452,18 @@ function computeGroupSeedLocks(groupKey,matchScores) {
 
 function assignThirdPlaceSlots(thirdPlaceRace) {
   const qualifiedThirds = thirdPlaceRace.slice(0,8);
-  const rankByGroup = Object.fromEntries(qualifiedThirds.map((team,index) => [team.group,index]));
   const qualifiedByGroup = Object.fromEntries(qualifiedThirds.map(team => [team.group,team]));
-  const slots = THIRD_SLOTS.map(slot => ({
-    ...slot,
-    options: slot.groups
-      .map(group => qualifiedByGroup[group])
-      .filter(Boolean)
-      .sort((a,b) => rankByGroup[a.group]-rankByGroup[b.group]),
-  })).sort((a,b) => a.options.length-b.options.length || a.matchNumber-b.matchNumber);
-  const assignments = {};
-  const usedGroups = new Set();
+  const lookupKey = qualifiedThirds.map(team => team.group).sort().join("");
+  const lookup = annexCThirdPlace.combinations[lookupKey];
+  if (!lookup) return {};
 
-  function search(index) {
-    if (index===slots.length) return true;
-    const slot = slots[index];
-    for (const option of slot.options) {
-      if (usedGroups.has(option.group)) continue;
-      usedGroups.add(option.group);
-      assignments[slot.id] = option;
-      if (search(index+1)) return true;
-      usedGroups.delete(option.group);
-      delete assignments[slot.id];
-    }
-    return false;
-  }
-
-  search(0);
-  return assignments;
+  return Object.fromEntries(
+    Object.entries(lookup.assignments).flatMap(([winnerSlot,thirdSeed]) => {
+      const group = thirdSeed.slice(1);
+      const team = qualifiedByGroup[group];
+      return team ? [[winnerSlot,{...team,seed:thirdSeed,lookupKey,option:lookup.option}]] : [];
+    }),
+  );
 }
 
 function resolveBracketSide(side,groupResults,thirdAssignments,allGroupsComplete,groupSeedLocks) {
@@ -494,7 +476,7 @@ function resolveBracketSide(side,groupResults,thirdAssignments,allGroupsComplete
       locked:groupSeedLocks[side.group][side.place-1]===team.abbr,
     };
   }
-  const thirdTeam = thirdAssignments[side.id];
+  const thirdTeam = thirdAssignments[side.winnerSlot];
   if (!thirdTeam) {
     return {
       team:null,
