@@ -666,7 +666,7 @@ function GroupPanel({groupKey,group,result,qualifyingThirdGroups,scores,setScore
 
 function R32Bracket({matches}) {
   return (
-    <div>
+    <div className="bracket-panel">
       <div className="bracket-header">
         <div>
           <h2>Final Round of 32 Bracket</h2>

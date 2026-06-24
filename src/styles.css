@@ -98,15 +98,20 @@ select {
   min-width: 0;
 }
 
+.bracket-panel {
+  background: #0e1e38;
+  border: 1px solid #1e3a5f;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
 .bracket-header {
   align-items: flex-start;
   background: linear-gradient(135deg,#102443 0%,#0e1e38 100%);
-  border: 1px solid #1e3a5f;
-  border-radius: 12px;
+  border-bottom: 1px solid #1e3a5f;
   display: flex;
   gap: 16px;
   justify-content: space-between;
-  margin-bottom: 16px;
   padding: 14px 16px;
 }
 
@@ -133,7 +138,8 @@ select {
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-bottom: 20px;
+  margin: 0;
+  padding: 12px;
 }
 
 .bracket-aside .r32-grid {
