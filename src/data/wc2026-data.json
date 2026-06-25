@@ -532,7 +532,11 @@
           "stadium": "MetLife Stadium",
           "city": "East Rutherford",
           "country": "USA",
-          "status": "scheduled",
+          "status": "final",
+          "finalScore": {
+            "home": 2,
+            "away": 1
+          },
           "prob": {
             "home": 24.3,
             "draw": 23.5,
@@ -546,7 +550,11 @@
           "stadium": "Lincoln Financial Field",
           "city": "Philadelphia",
           "country": "USA",
-          "status": "scheduled",
+          "status": "final",
+          "finalScore": {
+            "home": 0,
+            "away": 2
+          },
           "prob": {
             "home": 4.8,
             "draw": 10.5,
