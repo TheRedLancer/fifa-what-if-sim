@@ -2,7 +2,7 @@
   "metadata": {
     "tournament": "FIFA World Cup 2026",
     "stage": "Group Stage",
-    "generated": "2026-06-24",
+    "generated": "2026-06-25",
     "note": "MD1+MD2 results verified. MD3 fixtures include kickoff times in UTC, venue, and win probabilities."
   },
   "groups": {
@@ -88,7 +88,11 @@
           "stadium": "Estadio Azteca",
           "city": "Mexico City",
           "country": "Mexico",
-          "status": "scheduled",
+          "status": "final",
+          "finalScore": {
+            "home": 0,
+            "away": 3
+          },
           "prob": {
             "home": 25.6,
             "draw": 25.2,
@@ -102,7 +106,11 @@
           "stadium": "Estadio BBVA",
           "city": "Monterrey",
           "country": "Mexico",
-          "status": "scheduled",
+          "status": "final",
+          "finalScore": {
+            "home": 1,
+            "away": 0
+          },
           "prob": {
             "home": 15.5,
             "draw": 23.2,
@@ -306,7 +314,11 @@
           "stadium": "Hard Rock Stadium",
           "city": "Miami Gardens",
           "country": "USA",
-          "status": "scheduled",
+          "status": "final",
+          "finalScore": {
+            "home": 0,
+            "away": 3
+          },
           "prob": {
             "home": 9.2,
             "draw": 16.6,
@@ -320,7 +332,11 @@
           "stadium": "SoFi Stadium",
           "city": "Inglewood",
           "country": "USA",
-          "status": "scheduled",
+          "status": "final",
+          "finalScore": {
+            "home": 4,
+            "away": 2
+          },
           "prob": {
             "home": 82.9,
             "draw": 11.9,
