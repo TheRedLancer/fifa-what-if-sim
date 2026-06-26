@@ -427,7 +427,11 @@
           "stadium": "SoFi Stadium",
           "city": "Inglewood",
           "country": "USA",
-          "status": "scheduled",
+          "status": "final",
+          "finalScore": {
+            "home": 3,
+            "away": 2
+          },
           "prob": {
             "home": 12.1,
             "draw": 19.2,
@@ -441,7 +445,11 @@
           "stadium": "Levi's Stadium",
           "city": "Santa Clara",
           "country": "USA",
-          "status": "scheduled",
+          "status": "final",
+          "finalScore": {
+            "home": 0,
+            "away": 0
+          },
           "prob": {
             "home": 38.5,
             "draw": 28.6,
@@ -532,7 +540,11 @@
           "stadium": "MetLife Stadium",
           "city": "East Rutherford",
           "country": "USA",
-          "status": "scheduled",
+          "status": "final",
+          "finalScore": {
+            "home": 2,
+            "away": 1
+          },
           "prob": {
             "home": 24.3,
             "draw": 23.5,
@@ -546,7 +558,11 @@
           "stadium": "Lincoln Financial Field",
           "city": "Philadelphia",
           "country": "USA",
-          "status": "scheduled",
+          "status": "final",
+          "finalScore": {
+            "home": 0,
+            "away": 2
+          },
           "prob": {
             "home": 4.8,
             "draw": 10.5,
@@ -637,7 +653,11 @@
           "stadium": "Arrowhead Stadium",
           "city": "Kansas City",
           "country": "USA",
-          "status": "scheduled",
+          "status": "final",
+          "finalScore": {
+            "home": 1,
+            "away": 3
+          },
           "prob": {
             "home": 3.1,
             "draw": 8.5,
@@ -651,7 +671,11 @@
           "stadium": "AT&T Stadium",
           "city": "Arlington",
           "country": "USA",
-          "status": "scheduled",
+          "status": "final",
+          "finalScore": {
+            "home": 1,
+            "away": 1
+          },
           "prob": {
             "home": 50.9,
             "draw": 26.7,
