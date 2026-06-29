@@ -2,7 +2,7 @@
   "metadata": {
     "tournament": "FIFA World Cup 2026",
     "stage": "Group Stage",
-    "generated": "2026-06-25",
+    "generated": "2026-06-27",
     "note": "MD1+MD2 results verified. MD3 fixtures include kickoff times in UTC, venue, and win probabilities."
   },
   "groups": {
@@ -766,7 +766,8 @@
           "stadium": "Lumen Field",
           "city": "Seattle",
           "country": "USA",
-          "status": "scheduled",
+          "status": "final",
+          "finalScore": { "home": 1, "away": 1 },
           "prob": {
             "home": 44.2,
             "draw": 27.1,
@@ -780,7 +781,8 @@
           "stadium": "BC Place",
           "city": "Vancouver",
           "country": "Canada",
-          "status": "scheduled",
+          "status": "final",
+          "finalScore": { "home": 1, "away": 5 },
           "prob": {
             "home": 11.3,
             "draw": 19.4,
@@ -871,12 +873,8 @@
           "stadium": "Estadio Akron",
           "city": "Zapopan",
           "country": "Mexico",
-          "status": "scheduled",
-          "prob": {
-            "home": 22.1,
-            "draw": 26.4,
-            "away": 51.5
-          }
+          "status": "final",
+          "finalScore": { "home": 0, "away": 1 }
         },
         {
           "home": "CPV",
@@ -885,12 +883,8 @@
           "stadium": "NRG Stadium",
           "city": "Houston",
           "country": "USA",
-          "status": "scheduled",
-          "prob": {
-            "home": 42.3,
-            "draw": 28.6,
-            "away": 29.1
-          }
+          "status": "final",
+          "finalScore": { "home": 0, "away": 0 }
         }
       ]
     },
@@ -976,12 +970,8 @@
           "stadium": "Gillette Stadium",
           "city": "Foxborough",
           "country": "USA",
-          "status": "scheduled",
-          "prob": {
-            "home": 31.2,
-            "draw": 27.8,
-            "away": 41.0
-          }
+          "status": "final",
+          "finalScore": { "home": 1, "away": 4 }
         },
         {
           "home": "SEN",
@@ -990,12 +980,8 @@
           "stadium": "BMO Field",
           "city": "Toronto",
           "country": "Canada",
-          "status": "scheduled",
-          "prob": {
-            "home": 51.3,
-            "draw": 26.4,
-            "away": 22.3
-          }
+          "status": "final",
+          "finalScore": { "home": 5, "away": 0 }
         }
       ]
     },
@@ -1081,12 +1067,8 @@
           "stadium": "AT&T Stadium",
           "city": "Arlington",
           "country": "USA",
-          "status": "scheduled",
-          "prob": {
-            "home": 4.2,
-            "draw": 12.1,
-            "away": 83.7
-          }
+          "status": "final",
+          "finalScore": { "home": 1, "away": 3 }
         },
         {
           "home": "DZA",
@@ -1095,12 +1077,8 @@
           "stadium": "Arrowhead Stadium",
           "city": "Kansas City",
           "country": "USA",
-          "status": "scheduled",
-          "prob": {
-            "home": 38.6,
-            "draw": 27.5,
-            "away": 33.9
-          }
+          "status": "final",
+          "finalScore": { "home": 3, "away": 3 }
         }
       ]
     },
@@ -1186,12 +1164,8 @@
           "stadium": "Hard Rock Stadium",
           "city": "Miami Gardens",
           "country": "USA",
-          "status": "scheduled",
-          "prob": {
-            "home": 40.1,
-            "draw": 27.3,
-            "away": 32.6
-          }
+          "status": "final",
+          "finalScore": { "home": 0, "away": 0 }
         },
         {
           "home": "COD",
@@ -1200,12 +1174,8 @@
           "stadium": "Mercedes-Benz Stadium",
           "city": "Atlanta",
           "country": "USA",
-          "status": "scheduled",
-          "prob": {
-            "home": 62.4,
-            "draw": 22.1,
-            "away": 15.5
-          }
+          "status": "final",
+          "finalScore": { "home": 3, "away": 1 }
         }
       ]
     },
@@ -1291,12 +1261,8 @@
           "stadium": "MetLife Stadium",
           "city": "East Rutherford",
           "country": "USA",
-          "status": "scheduled",
-          "prob": {
-            "home": 2.6,
-            "draw": 6.2,
-            "away": 91.2
-          }
+          "status": "final",
+          "finalScore": { "home": 0, "away": 2 }
         },
         {
           "home": "CRO",
@@ -1305,12 +1271,8 @@
           "stadium": "Lincoln Financial Field",
           "city": "Philadelphia",
           "country": "USA",
-          "status": "scheduled",
-          "prob": {
-            "home": 32.7,
-            "draw": 28.9,
-            "away": 38.4
-          }
+          "status": "final",
+          "finalScore": { "home": 2, "away": 1 }
         }
       ]
     }

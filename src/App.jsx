@@ -422,13 +422,15 @@ function computeGroupSeedLocks(groupKey,matchScores) {
     teams = applyMatchToTeams(teams,match,hg,ag);
   });
 
-  const possibleBySeed = [new Set(),new Set()];
+  let scenarioCount = 0;
+  const qualifiedCount = {};
 
   function simulate(matchIndex,simTeams,simResults) {
     if (matchIndex===remaining.length) {
       const sorted = sortGroup(simTeams,simResults);
-      possibleBySeed[0].add(sorted[0].abbr);
-      possibleBySeed[1].add(sorted[1].abbr);
+      qualifiedCount[sorted[0].abbr] = (qualifiedCount[sorted[0].abbr] ?? 0) + 1;
+      qualifiedCount[sorted[1].abbr] = (qualifiedCount[sorted[1].abbr] ?? 0) + 1;
+      scenarioCount++;
       return;
     }
     const match = remaining[matchIndex];
@@ -445,9 +447,15 @@ function computeGroupSeedLocks(groupKey,matchScores) {
 
   simulate(0,teams,allResults);
 
-  const locks = possibleBySeed.map(possible => possible.size===1 ? [...possible][0] : null);
-  seedLockCache.set(cacheKey,locks);
-  return locks;
+  // A team is "locked in" when they appear in the top 2 across every possible
+  // remaining-match outcome — regardless of whether they're 1st or 2nd.
+  const guaranteed = new Set(
+    Object.entries(qualifiedCount)
+      .filter(([,count]) => count === scenarioCount)
+      .map(([abbr]) => abbr),
+  );
+  seedLockCache.set(cacheKey,guaranteed);
+  return guaranteed;
 }
 
 function assignThirdPlaceSlots(thirdPlaceRace) {
@@ -473,7 +481,7 @@ function resolveBracketSide(side,groupResults,thirdAssignments,allGroupsComplete
       team,
       label:`${side.group}${side.place}`,
       detail: side.place===1 ? `Winner Group ${side.group}` : `Runner-up Group ${side.group}`,
-      locked:groupSeedLocks[side.group][side.place-1]===team.abbr,
+      locked:groupSeedLocks[side.group].has(team.abbr),
     };
   }
   const thirdTeam = thirdAssignments[side.winnerSlot];
